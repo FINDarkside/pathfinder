@@ -2,7 +2,7 @@
 
 ## Mitä algoritmeja ja tietorakenteita toteutat työssäsi
 
-Tarkoitus toteuttaa seuraavat algoritmit:
+Tarkoitus toteuttaa seuraavat algoritmit ja verrata niiden tehokkuutta erilaisissa kartoissa:
 
 * [A*](https://en.wikipedia.org/wiki/A*_search_algorithm)
 * [BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
