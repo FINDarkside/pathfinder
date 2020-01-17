@@ -22,7 +22,7 @@ Ohjelma lukee .map tiedostoja, todennäköisesti [täältä](https://www.movinga
 
 ## Tavoitteena olevat aika- ja tilavaativuudet (m.m. O-analyysit)
 
-BFS:n aikavaatimus on O(|V|+|E|), jossa V on solmujen joukko ja E kaarien joukko. BFS:n tilavatimus on O(|V|). A* aikavaatimus on O(|V|+|E|\*log(|E|)) ja tilavaatimus sama kuin leveyshaulla. En löytänyt jump point searchin vaatimuksia, mutta luettuani sen toimintatavan aika- ja tilavaatimus on todennäköisesti sama A* kanssa. IDA* poikkeaa muista tilavaatumuksellaan joka on vain O(d), missä d on lyhyimmän polun pituus.
+BFS:n aikavaatimus on O(V+E), jossa V on solmujen määrä ja E kaarien määrä. BFS:n tilavatimus on O(V). A* aikavaatimus on O(V + E \* log E) ja tilavaatimus sama kuin leveyshaulla. En löytänyt jump point searchin vaatimuksia, mutta luettuani sen toimintatavan aika- ja tilavaatimus on todennäköisesti sama A* kanssa. IDA* poikkeaa muista tilavaatumuksellaan joka on vain O(d), missä d on lyhyimmän polun pituus.
 
 ## Lähteet
 
