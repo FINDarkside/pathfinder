@@ -50,8 +50,9 @@ public class AstarPathfinder extends Pathfinder {
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
             if (closed.contains(currentNode.cell)) {
-                closed.add(currentNode.cell);
+                continue;
             }
+            closed.add(currentNode.cell);
             if (currentNode.cell.equals(goal)) {
                 return reconstructPath(start, goal, prev);
             }
