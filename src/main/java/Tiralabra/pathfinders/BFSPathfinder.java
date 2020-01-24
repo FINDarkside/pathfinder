@@ -70,7 +70,6 @@ public class BFSPathfinder {
         // prev allows us to traverse the path backwards, but adding to start of array is O(n) operation
         // so we first calculate path length and use indices to set cells
         int pathLength = calculatePathLength(start, goal, prev);
-        System.out.println("Path " + pathLength);
         Cell[] path = new Cell[pathLength];
         Cell currentCell = goal;
         for (int i = pathLength - 1; i >= 0; i--) {
