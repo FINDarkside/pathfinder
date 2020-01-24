@@ -8,7 +8,7 @@ import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 
-public class BFSPathfinder {
+public class BFSPathfinder implements Pathfinder {
 
     Map map;
 
@@ -16,6 +16,7 @@ public class BFSPathfinder {
         this.map = map;
     }
 
+    @Override
     public Cell[] findPath(Cell start, Cell goal) {
         if (start.getX() == goal.getX() && start.getY() == goal.getY()) {
             return new Cell[0];
