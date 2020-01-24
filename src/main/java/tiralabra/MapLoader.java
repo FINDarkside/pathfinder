@@ -19,6 +19,15 @@ public class MapLoader {
         return constructMap(lines);
     }
 
+    /**
+     * Constructs map from list of strings second line should be in format
+     * "height [Integer]" third line should be in format "width [Integer]" map
+     * should start from fifth line, "." represents free cell and all other
+     * characters are interpreted as blocked cell.
+     *
+     * @param lines
+     * @return
+     */
     public static Map constructMap(List<String> lines) {
         int height = Integer.parseInt(lines.get(1).split(" ")[1]);
         int width = Integer.parseInt(lines.get(2).split(" ")[1]);
@@ -29,7 +38,7 @@ public class MapLoader {
             int y = i - 4;
             for (int x = 0; x < line.length(); x++) {
                 if (line.charAt(x) != '.') {
-                    map.setBlock(x, y, true);
+                    map.setCell(x, y, true);
                 }
             }
         }

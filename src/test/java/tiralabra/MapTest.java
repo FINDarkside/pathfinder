@@ -26,7 +26,7 @@ public class MapTest {
 
     @Test
     public void cellIsBlockedAfterSetCell() {
-        map.setBlock(4, 2, true);
+        map.setCell(4, 2, true);
         assertEquals(true, map.isCellBlocked(new Cell(4, 2)));
     }
 

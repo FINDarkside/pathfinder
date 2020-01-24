@@ -35,7 +35,7 @@ public  class TestCases {
     private static void createSimpleNoPath() {
         Map map = new Map(5, 5);
         for (int i = 0; i < 5; i++) {
-            map.setBlock(2, i, true);
+            map.setCell(2, i, true);
         }
         simpleNoPath = new PathfinderTestCase(map,
                 new Cell(0, 0),

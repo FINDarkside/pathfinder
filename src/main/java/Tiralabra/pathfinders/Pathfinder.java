@@ -10,6 +10,14 @@ public abstract class Pathfinder {
 
     protected Map map;
 
+    /**
+     * Finds shortest path between two cells, if such path exists
+     *
+     * @param start
+     * @param goal
+     * @return Array of cells forming the shortest path. Starting cell is not
+     * included.
+     */
     public abstract Cell[] findPath(Cell start, Cell goal);
 
     protected List<Cell> getAdjacentCells(Cell cell) {
@@ -33,6 +41,7 @@ public abstract class Pathfinder {
         return !map.isInBounds(x, y) || map.isCellBlocked(x, y);
     }
 
+    
     protected Cell[] reconstructPath(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
         // prev allows us to traverse the path backwards, but adding to start of array is O(n) operation
         // so we first calculate path length and use indices to set cells
