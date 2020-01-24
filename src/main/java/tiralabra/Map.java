@@ -14,7 +14,7 @@ public class Map {
     }
 
     /**
-     * Returns if cell is blocked
+     * Checks if cell is blocked.
      *
      * @param cell
      * @return true if cell is blocked
@@ -24,7 +24,7 @@ public class Map {
     }
 
     /**
-     * Returns if cell is blocked in given x and y
+     * Returns if cell is blocked in given x and y.
      *
      * @param x
      * @param y
@@ -35,7 +35,7 @@ public class Map {
     }
 
     /**
-     * Determines if given coordinates are within map bounds
+     * Determines if given coordinates are within map bounds.
      *
      * @param x
      * @param y
@@ -46,7 +46,7 @@ public class Map {
     }
 
     /**
-     * Sets state of cell
+     * Sets state of cell.
      *
      * @param x
      * @param y

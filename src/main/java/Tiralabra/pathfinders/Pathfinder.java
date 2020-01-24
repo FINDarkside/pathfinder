@@ -11,7 +11,7 @@ public abstract class Pathfinder {
     protected Map map;
 
     /**
-     * Finds shortest path between two cells, if such path exists
+     * Finds shortest path between two cells, if such path exists.
      *
      * @param start
      * @param goal
