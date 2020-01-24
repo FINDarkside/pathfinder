@@ -22,7 +22,7 @@ public class Map {
     }
 
     public boolean isInBounds(int x, int y) {
-        return x > 0 && y > 0 && x < width && y < height;
+        return x >= 0 && y >= 0 && x < width && y < height;
     }
 
     public void setBlock(int x, int y, boolean blocked) {
