@@ -3,12 +3,16 @@
  */
 package Tiralabra;
 
-public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+import Tiralabra.pathfinders.BFSPathfinder;
+import java.io.IOException;
+import java.nio.file.Paths;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+public class App {
+
+    public static void main(String[] args) throws IOException {
+        //Map map = MapLoader.loadMap(Paths.get("C:\\Users\\FINDarkside\\Downloads\\AcrosstheCape.map\\AcrosstheCape.map"));
+        //BFSPathfinder finder = new BFSPathfinder(map);
+
+        
     }
 }
