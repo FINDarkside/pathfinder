@@ -32,7 +32,6 @@ public class BFSPathfinder {
 
         while (!queue.isEmpty()) {
             Cell cell = queue.pop();
-            System.out.println(cell);
             for (Cell nextCell : getAdjacentCells(cell)) {
                 int bitSetIndex = nextCell.getX() + nextCell.getY() * map.getWidth();
                 if (used.get(bitSetIndex)) {
@@ -51,19 +50,23 @@ public class BFSPathfinder {
 
     private List<Cell> getAdjacentCells(Cell cell) {
         List<Cell> adjacentCells = new ArrayList<>();
-        if (map.isInBounds(cell.getX() + 1, cell.getY())) {
+        if (!isBlockedOrOutOfBounds(cell.getX() + 1, cell.getY())) {
             adjacentCells.add(new Cell(cell.getX() + 1, cell.getY()));
         }
-        if (map.isInBounds(cell.getX() - 1, cell.getY())) {
+        if (!isBlockedOrOutOfBounds(cell.getX() - 1, cell.getY())) {
             adjacentCells.add(new Cell(cell.getX() - 1, cell.getY()));
         }
-        if (map.isInBounds(cell.getX(), cell.getY() + 1)) {
+        if (!isBlockedOrOutOfBounds(cell.getX(), cell.getY() + 1)) {
             adjacentCells.add(new Cell(cell.getX(), cell.getY() + 1));
         }
-        if (map.isInBounds(cell.getX(), cell.getY() - 1)) {
+        if (!isBlockedOrOutOfBounds(cell.getX(), cell.getY() - 1)) {
             adjacentCells.add(new Cell(cell.getX(), cell.getY() - 1));
         }
         return adjacentCells;
+    }
+
+    private boolean isBlockedOrOutOfBounds(int x, int y) {
+        return !map.isInBounds(x, y) || map.isCellBlocked(x, y);
     }
 
     private Cell[] reconstructPath(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
