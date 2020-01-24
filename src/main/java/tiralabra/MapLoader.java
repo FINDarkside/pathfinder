@@ -6,19 +6,20 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class MapLoader {
-    
+
     /**
-     * Loads map from given path. 
+     * Loads map from given path.
+     *
      * @param path
      * @return Map
-     * @throws IOException 
+     * @throws IOException
      */
     static Map loadMap(Path path) throws IOException {
         var lines = Files.readAllLines(path);
         return constructMap(lines);
     }
-    
-    private static Map constructMap(List<String> lines) {
+
+    public static Map constructMap(List<String> lines) {
         int height = Integer.parseInt(lines.get(1).split(" ")[1]);
         int width = Integer.parseInt(lines.get(2).split(" ")[1]);
         Map map = new Map(width, height);
