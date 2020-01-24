@@ -3,14 +3,10 @@ package tiralabra.pathfinders;
 import tiralabra.Cell;
 import tiralabra.Map;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
-import java.util.List;
 
-public class BFSPathfinder implements Pathfinder {
-
-    Map map;
+public class BFSPathfinder extends Pathfinder {
 
     public BFSPathfinder(Map map) {
         this.map = map;
@@ -47,50 +43,6 @@ public class BFSPathfinder implements Pathfinder {
             }
         }
         return null;
-    }
-
-    private List<Cell> getAdjacentCells(Cell cell) {
-        List<Cell> adjacentCells = new ArrayList<>();
-        if (!isBlockedOrOutOfBounds(cell.getX() + 1, cell.getY())) {
-            adjacentCells.add(new Cell(cell.getX() + 1, cell.getY()));
-        }
-        if (!isBlockedOrOutOfBounds(cell.getX() - 1, cell.getY())) {
-            adjacentCells.add(new Cell(cell.getX() - 1, cell.getY()));
-        }
-        if (!isBlockedOrOutOfBounds(cell.getX(), cell.getY() + 1)) {
-            adjacentCells.add(new Cell(cell.getX(), cell.getY() + 1));
-        }
-        if (!isBlockedOrOutOfBounds(cell.getX(), cell.getY() - 1)) {
-            adjacentCells.add(new Cell(cell.getX(), cell.getY() - 1));
-        }
-        return adjacentCells;
-    }
-
-    private boolean isBlockedOrOutOfBounds(int x, int y) {
-        return !map.isInBounds(x, y) || map.isCellBlocked(x, y);
-    }
-
-    private Cell[] reconstructPath(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
-        // prev allows us to traverse the path backwards, but adding to start of array is O(n) operation
-        // so we first calculate path length and use indices to set cells
-        int pathLength = calculatePathLength(start, goal, prev);
-        Cell[] path = new Cell[pathLength];
-        Cell currentCell = goal;
-        for (int i = pathLength - 1; i >= 0; i--) {
-            path[i] = currentCell;
-            currentCell = prev.get(currentCell);
-        }
-        return path;
-    }
-
-    private int calculatePathLength(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
-        int length = 0;
-        Cell currentCell = goal;
-        while (!currentCell.equals(start)) {
-            currentCell = prev.get(currentCell);
-            length++;
-        }
-        return length;
     }
 
 }
