@@ -1,7 +1,7 @@
-package Tiralabra.pathfinders;
+package tiralabra.pathfinders;
 
-import Tiralabra.Cell;
-import Tiralabra.Map;
+import tiralabra.Cell;
+import tiralabra.Map;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.BitSet;

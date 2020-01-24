@@ -30,7 +30,7 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClassName = 'Tiralabra.App'
+    mainClassName = 'tiralabra.App'
 }
 
 jacocoTestReport {

@@ -1,5 +1,7 @@
-package Tiralabra;
+package tiralabra;
 
+import tiralabra.Map;
+import tiralabra.Cell;
 import static junit.framework.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

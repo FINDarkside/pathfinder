@@ -1,4 +1,4 @@
-package Tiralabra;
+package tiralabra;
 
 public class Cell {
 

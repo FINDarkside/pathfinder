@@ -1,4 +1,4 @@
-package Tiralabra;
+package tiralabra;
 
 import java.util.BitSet;
 
