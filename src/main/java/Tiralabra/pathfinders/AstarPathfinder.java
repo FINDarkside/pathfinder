@@ -41,15 +41,17 @@ public class AstarPathfinder extends Pathfinder {
             return null;
         }
         PriorityQueue<PathNode> queue = new PriorityQueue<>();
-        HashSet<Cell> open = new HashSet();
+        HashSet<Cell> closed = new HashSet();
         HashMap<Cell, Cell> prev = new HashMap<>();
         HashMap<Cell, Integer> bestDist = new HashMap<>();
 
         queue.add(new PathNode(start, 0, manhattanDistance(start, goal)));
-        open.add(start);
 
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
+            if (closed.contains(currentNode.cell)) {
+                closed.add(currentNode.cell);
+            }
             if (currentNode.cell.equals(goal)) {
                 return reconstructPath(start, goal, prev);
             }
@@ -58,10 +60,8 @@ public class AstarPathfinder extends Pathfinder {
                 if (!bestDist.containsKey(nextCell) || bestDist.get(nextCell) > dist) {
                     prev.put(nextCell, currentNode.cell);
                     bestDist.put(nextCell, dist);
-                    if (!open.contains(nextCell)) {
-                        int estimatedDist = dist + manhattanDistance(nextCell, goal);
-                        queue.add(new PathNode(nextCell, dist, estimatedDist));
-                    }
+                    int estimatedDist = dist + manhattanDistance(nextCell, goal);
+                    queue.add(new PathNode(nextCell, dist, estimatedDist));
                 }
             }
         }
