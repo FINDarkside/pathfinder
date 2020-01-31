@@ -77,12 +77,6 @@ public class JPSPathfinder extends Pathfinder {
         Cell currentCell = node.cell;
 
         while (!map.isCellBlocked(currentCell.getX(), currentCell.getY())) {
-            // Diagonal moves are not allowed, so if we can't make it with 2 straight moves
-            // currentCell is inaccessible
-            if (!map.isCellBlocked(currentCell.getX() - dx, currentCell.getY())
-                    || !map.isCellBlocked(currentCell.getX(), currentCell.getY() - dy)) {
-                return;
-            }
             if (bestDist.containsKey(currentCell) && bestDist.get(currentCell) < dist) {
                 break;
             }
@@ -106,6 +100,12 @@ public class JPSPathfinder extends Pathfinder {
             }
 
             currentCell = new Cell(node.cell.getX() + dx, node.cell.getY() + dy);
+            // Diagonal moves are not allowed, so if we can't make it with 2 straight moves
+            // currentCell is inaccessible
+            if (!map.isCellBlocked(currentCell.getX() - dx, currentCell.getY())
+                    || !map.isCellBlocked(currentCell.getX(), currentCell.getY() - dy)) {
+                return;
+            }
             dist += 2;
         }
     }
