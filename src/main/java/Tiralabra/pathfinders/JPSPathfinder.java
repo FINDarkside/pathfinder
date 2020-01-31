@@ -177,8 +177,7 @@ public class JPSPathfinder extends Pathfinder {
 
             if (currentCell.equals(goal)) {
                 ArrayList<PathNode> result = new ArrayList<>();
-                int estimatedDistance = dist + manhattanDistance(currentCell, goal);
-                result.add(new PathNode(currentCell, dist, estimatedDistance, 0, 0));
+                result.add(new PathNode(currentCell, dist, dist, 0, 0));
                 return result;
             }
             var newJumpPoints = getJumpPoints(map, currentCell, dx, dy, dist, goal);
