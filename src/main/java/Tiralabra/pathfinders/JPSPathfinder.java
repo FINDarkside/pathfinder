@@ -108,6 +108,10 @@ public class JPSPathfinder extends Pathfinder {
                 break;
             }
             bestDist.put(currentCell, dist);
+            if (currentCell.equals(goal)) {
+                queue.add(new PathNode(goal, dist, dist, 0, 0));
+                prev.put(goal, node.cell);
+            }
 
             var verticalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, prev, goal, 0, dy);
             if (!verticalJumpPoints.isEmpty()) {
