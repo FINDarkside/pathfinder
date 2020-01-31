@@ -165,25 +165,21 @@ public class JPSPathfinder extends Pathfinder {
             // Horizontal movement
             if (map.isCellBlocked(x, y + 1) && !map.isCellBlocked(x + dx, y + 1)) {
                 // (x + dx, y + 1) is the forced neighbor, add PathNode expanding in its direction
-                Cell newCell = new Cell(x, y + 1);
-                result.add(new PathNode(newCell, dist, dist + manhattanDistance(cell, cell), dx, 1));
+                result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, goal), dx, 1));
             }
             if (map.isCellBlocked(x, y - 1) && !map.isCellBlocked(x + dx, y - 1)) {
                 // (x + dx, y - 1) is the forced neighbor
-                Cell newCell = new Cell(x, y - 1);
-                result.add(new PathNode(newCell, dist, dist + manhattanDistance(cell, cell), dx, -1));
+                result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, goal), dx, -1));
             }
         }
         if (dx == 0 && !map.isCellBlocked(x, y + dy)) {
             if (map.isCellBlocked(x + 1, y) && !map.isCellBlocked(x + 1, y + dy)) {
                 // (x + 1, y + dy) is the forced neighbor
-                Cell newCell = new Cell(x + 1, y + dy);
-                result.add(new PathNode(newCell, dist, dist + manhattanDistance(cell, cell), 1, dy));
+                result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, goal), 1, dy));
             }
             if (map.isCellBlocked(x - 1, y) && !map.isCellBlocked(x - 1, y + dy)) {
                 // (x - 1, y + dy) is the forced neighbor
-                Cell newCell = new Cell(x - 1, y + dy);
-                result.add(new PathNode(newCell, dist, dist + manhattanDistance(cell, cell), -1, dy));
+                result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, goal), -1, dy));
             }
         }
         return result;
