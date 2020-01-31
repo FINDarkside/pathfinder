@@ -32,13 +32,6 @@ public class TestCases {
     }
 
     private static void createSimpleTestCase() {
-        Cell[] answer = new Cell[]{
-            new Cell(0, 1),
-            new Cell(0, 2),
-            new Cell(0, 3),
-            new Cell(0, 4)
-        };
-
         simpleTestCase = new PathfinderTestCase(new Map(5, 5),
                 new Cell(0, 0),
                 new Cell(0, 4),
