@@ -81,14 +81,12 @@ public class JPSPathfinder extends Pathfinder {
 
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
-            System.out.println(currentNode.cell);
             closed.add(currentNode);
             if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) < currentNode.dist) {
                 continue;
             }
 
             if (currentNode.cell.equals(goal)) {
-                System.out.println("Found path " + currentNode.dist);
                 return reconstructPath(start, goal, prev);
             }
 
@@ -135,12 +133,16 @@ public class JPSPathfinder extends Pathfinder {
 
             var diagonalJumpPoints = getJumpPoints(map, currentCell, dx, dy, dist, goal);
             if (!diagonalJumpPoints.isEmpty()) {
-                queue.addAll(diagonalJumpPoints);
-                prev.put(diagonalJumpPoints.get(0).cell, currentCell);
-                if (!currentCell.equals(node.cell)) {
-                    prev.put(currentCell, node.cell);
+                if (bestDist.getOrDefault(diagonalJumpPoints.get(0), Integer.MAX_VALUE) < dist + 2) {
+                    queue.addAll(diagonalJumpPoints);
+                    prev.put(diagonalJumpPoints.get(0).cell, currentCell);
+                    if (!currentCell.equals(node.cell)) {
+                        prev.put(currentCell, node.cell);
+                    }
+                    return;
                 }
-                return;
+
+                
             }
 
             currentCell = new Cell(currentCell.getX() + dx, currentCell.getY() + dy);
