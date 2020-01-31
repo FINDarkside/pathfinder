@@ -3,6 +3,7 @@ package tiralabra.pathfinders;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import tiralabra.Cell;
 import tiralabra.Map;
@@ -30,6 +31,30 @@ public class JPSPathfinder extends Pathfinder {
             return estimatedDist - node.estimatedDist;
         }
 
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 89 * hash + Objects.hashCode(this.cell);
+            hash = 89 * hash + this.dx;
+            hash = 89 * hash + this.dy;
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            PathNode other = (PathNode) obj;
+            if (this.dx != other.dx || this.dy != other.dy || !this.cell.equals(other.cell)) {
+                return false;
+            }
+            return true;
+        }
+
     }
 
     public JPSPathfinder(Map map) {
@@ -45,7 +70,7 @@ public class JPSPathfinder extends Pathfinder {
             return null;
         }
         PriorityQueue<PathNode> queue = new PriorityQueue<>();
-        HashSet<Cell> closed = new HashSet();
+        HashSet<PathNode> closed = new HashSet();
         HashMap<Cell, Cell> prev = new HashMap<>();
         HashMap<Cell, Integer> bestDist = new HashMap<>();
 
@@ -56,6 +81,10 @@ public class JPSPathfinder extends Pathfinder {
 
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
+            if (closed.contains(currentNode)) {
+                continue;
+            }
+            closed.add(currentNode);
             if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) < currentNode.dist) {
                 continue;
             }
@@ -63,7 +92,7 @@ public class JPSPathfinder extends Pathfinder {
 
             if (currentNode.cell.equals(goal)) {
                 System.out.println(currentNode.dist);
-                // TODO return result;
+                return null;
             }
 
             searchDiagonal(map, currentNode, queue, prev, bestDist, goal, currentNode.dx, currentNode.dy);
@@ -82,20 +111,36 @@ public class JPSPathfinder extends Pathfinder {
             }
             bestDist.put(currentCell, dist);
 
-            var verticalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, goal, 0, dy);
+            var verticalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, prev, goal, 0, dy);
             if (!verticalJumpPoints.isEmpty()) {
                 int estimatedDistance = dist + manhattanDistance(currentCell, goal);
                 queue.add(new PathNode(currentCell, dist, estimatedDistance, dx, dy));
                 queue.addAll(verticalJumpPoints);
                 prev.put(verticalJumpPoints.get(0).cell, currentCell);
+                if (!currentCell.equals(node.cell)) {
+                    prev.put(currentCell, node.cell);
+                }
                 return;
             }
-            var horizontalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, goal, dx, 0);
+            var horizontalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, prev, goal, dx, 0);
             if (!horizontalJumpPoints.isEmpty()) {
                 int estimatedDistance = dist + manhattanDistance(currentCell, goal);
                 queue.add(new PathNode(currentCell, dist, estimatedDistance, dx, dy));
                 queue.addAll(horizontalJumpPoints);
                 prev.put(horizontalJumpPoints.get(0).cell, currentCell);
+                if (!currentCell.equals(node.cell)) {
+                    prev.put(currentCell, node.cell);
+                }
+                return;
+            }
+
+            var diagonalJumpPoints = getJumpPoints(map, currentCell, dx, dy, dist, goal);
+            if (!diagonalJumpPoints.isEmpty()) {
+                queue.addAll(diagonalJumpPoints);
+                prev.put(diagonalJumpPoints.get(0).cell, currentCell);
+                if (!currentCell.equals(node.cell)) {
+                    prev.put(currentCell, node.cell);
+                }
                 return;
             }
 
@@ -119,12 +164,9 @@ public class JPSPathfinder extends Pathfinder {
      * @param dx -1, 0 or 1. Should be 0 if dy != 0
      * @param dy -1, 0 or 1. Should be 0 if dx != 0
      */
-    private ArrayList<PathNode> jumpStraight(Map map, Cell cell, int dist, HashMap<Cell, Integer> bestDist, Cell goal, int dx, int dy) {
-        // FIXME: Don't move one block before checking for jump points. 
-        // And don't break if the first cell has been visited before with same distance.
-        dist++;
+    private ArrayList<PathNode> jumpStraight(Map map, Cell cell, int dist, HashMap<Cell, Integer> bestDist, HashMap<Cell, Cell> prev, Cell goal, int dx, int dy) {
         Cell currentCell = new Cell(cell.getX() + dx, cell.getY() + dy);
-
+        dist++;
         while (!map.isCellBlocked(currentCell.getX(), currentCell.getY())) {
             if (bestDist.containsKey(currentCell) && bestDist.get(currentCell) <= dist) {
                 break;
@@ -141,6 +183,7 @@ public class JPSPathfinder extends Pathfinder {
             if (!newJumpPoints.isEmpty()) {
                 return newJumpPoints;
             }
+
             currentCell = new Cell(currentCell.getX() + dx, currentCell.getY() + dy);
             dist++;
         }
@@ -175,7 +218,7 @@ public class JPSPathfinder extends Pathfinder {
                 result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, goal), dx, -1));
             }
         }
-        if (dx == 0 && !map.isCellBlocked(x, y + dy)) {
+        if ((dy == 1 || dy == -1) && dx == 0 && !map.isCellBlocked(x, y + dy)) {
             if (map.isCellBlocked(x + 1, y) && !map.isCellBlocked(x + 1, y + dy)) {
                 // (x + 1, y + dy) is the forced neighbor
                 result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, goal), 1, dy));
@@ -183,6 +226,19 @@ public class JPSPathfinder extends Pathfinder {
             if (map.isCellBlocked(x - 1, y) && !map.isCellBlocked(x - 1, y + dy)) {
                 // (x - 1, y + dy) is the forced neighbor
                 result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, goal), -1, dy));
+            }
+        } else if (dy != 0 && dx != 0 && !map.isCellBlocked(new Cell(cell.getX() + dx, cell.getY() + dy))) {
+            boolean xAxisBlocked = map.isCellBlocked(new Cell(cell.getX() + dx, cell.getY()));
+            boolean yAxisBlocked = map.isCellBlocked(new Cell(cell.getX(), cell.getY() + dy));
+            Cell diagonalCell = new Cell(cell.getX() + dx, cell.getY() + dy);
+            dist += 2;
+            int estimatedDist = dist + manhattanDistance(diagonalCell, goal);
+            if (xAxisBlocked && !yAxisBlocked) {
+                result.add(new PathNode(diagonalCell, dist, estimatedDist, dx, dy));
+                result.add(new PathNode(diagonalCell, dist, estimatedDist, dx, -dy));
+            } else if (!xAxisBlocked && yAxisBlocked) {
+                result.add(new PathNode(diagonalCell, dist, estimatedDist, dx, dy));
+                result.add(new PathNode(diagonalCell, dist, estimatedDist, -dx, dy));
             }
         }
         return result;
