@@ -88,10 +88,8 @@ public class JPSPathfinder extends Pathfinder {
             if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) < currentNode.dist) {
                 continue;
             }
-            System.out.println(currentNode.cell);
 
             if (currentNode.cell.equals(goal)) {
-                System.out.println(currentNode.dist);
                 return reconstructPath(start, goal, prev);
             }
 
@@ -263,13 +261,11 @@ public class JPSPathfinder extends Pathfinder {
                 // Vertical line
                 for (int j = 0; j < yDiff; j++) {
                     path[i--] = new Cell(nextCell.getX(), currentCell.getY() + j * yDirection);
-                    System.out.println(path[i + 1]);
                 }
             } else if (yDiff == 0) {
                 // Horizontal line
                 for (int j = 0; j < xDiff; j++) {
                     path[i--] = new Cell(currentCell.getX() + j * xDirection, nextCell.getY());
-                    System.out.println(path[i + 1]);
                 }
             } else {
                 if (xDiff != yDiff) {
@@ -283,8 +279,6 @@ public class JPSPathfinder extends Pathfinder {
                     } else {
                         path[i--] = new Cell(x, y + yDirection);
                     }
-                    System.out.println(path[i + 2]);
-                    System.out.println(path[i + 1]);
                     x += xDirection;
                     y += yDirection;
                 }
