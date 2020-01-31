@@ -81,15 +81,14 @@ public class JPSPathfinder extends Pathfinder {
 
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
-            if (closed.contains(currentNode)) {
-                continue;
-            }
+            System.out.println(currentNode.cell);
             closed.add(currentNode);
             if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) < currentNode.dist) {
                 continue;
             }
 
             if (currentNode.cell.equals(goal)) {
+                System.out.println("Found path " + currentNode.dist);
                 return reconstructPath(start, goal, prev);
             }
 
@@ -115,8 +114,7 @@ public class JPSPathfinder extends Pathfinder {
 
             var verticalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, prev, goal, 0, dy);
             if (!verticalJumpPoints.isEmpty()) {
-                int estimatedDistance = dist + manhattanDistance(currentCell, goal);
-                queue.add(new PathNode(currentCell, dist, estimatedDistance, dx, dy));
+                queue.add(new PathNode(currentCell, dist, dist + manhattanDistance(currentCell, goal), dx, dy));
                 queue.addAll(verticalJumpPoints);
                 prev.put(verticalJumpPoints.get(0).cell, currentCell);
                 if (!currentCell.equals(node.cell)) {
@@ -126,8 +124,7 @@ public class JPSPathfinder extends Pathfinder {
             }
             var horizontalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, prev, goal, dx, 0);
             if (!horizontalJumpPoints.isEmpty()) {
-                int estimatedDistance = dist + manhattanDistance(currentCell, goal);
-                queue.add(new PathNode(currentCell, dist, estimatedDistance, dx, dy));
+                queue.add(new PathNode(currentCell, dist, dist + manhattanDistance(currentCell, goal), dx, dy));
                 queue.addAll(horizontalJumpPoints);
                 prev.put(horizontalJumpPoints.get(0).cell, currentCell);
                 if (!currentCell.equals(node.cell)) {
@@ -297,6 +294,9 @@ public class JPSPathfinder extends Pathfinder {
         Cell currentCell = goal;
         while (!currentCell.equals(start)) {
             Cell nextCell = prev.get(currentCell);
+            if (currentCell.equals(nextCell)) {
+                throw new RuntimeException("Loop in path");
+            }
             length += Math.abs((currentCell.getX() - nextCell.getX()));
             length += Math.abs((currentCell.getY() - nextCell.getY()));
             currentCell = nextCell;
