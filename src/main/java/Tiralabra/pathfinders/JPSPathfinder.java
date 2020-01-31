@@ -142,7 +142,7 @@ public class JPSPathfinder extends Pathfinder {
                 return;
             }
 
-            currentCell = new Cell(node.cell.getX() + dx, node.cell.getY() + dy);
+            currentCell = new Cell(currentCell.getX() + dx, currentCell.getY() + dy);
             // Diagonal moves are not allowed, so if we can't make it with 2 straight moves
             // currentCell is inaccessible
             if (map.isCellBlocked(currentCell.getX() - dx, currentCell.getY())
