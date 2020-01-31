@@ -27,6 +27,11 @@ public class AstarPathfinderTest {
         AstarPathfinder pathfinder = new AstarPathfinder(map);
         Cell[] result = pathfinder.findPath(testCase.getStart(), testCase.getGoal());
         //System.out.println(Arrays.toString(result));
-        Assert.assertArrayEquals(testCase.getAnswer(), result);
+        if (testCase.getBestDistance() == -1) {
+            Assert.assertArrayEquals(null, result);
+        } else {
+            Assert.assertEquals(testCase.getBestDistance(), result.length);
+            TestCases.validatePath(map, result, testCase.getStart(), testCase.getGoal());
+        }
     }
 }

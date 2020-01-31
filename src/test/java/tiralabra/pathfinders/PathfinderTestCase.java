@@ -8,13 +8,13 @@ public class PathfinderTestCase {
     private final Map map;
     private final Cell start;
     private final Cell goal;
-    private final Cell[] answer;
+    private final int bestDistance;
 
-    public PathfinderTestCase(Map map, Cell start, Cell goal, Cell[] answer) {
+    public PathfinderTestCase(Map map, Cell start, Cell goal, int bestDistance) {
         this.map = map;
         this.start = start;
         this.goal = goal;
-        this.answer = answer;
+        this.bestDistance = bestDistance;
     }
 
     public Map getMap() {
@@ -29,8 +29,8 @@ public class PathfinderTestCase {
         return goal;
     }
 
-    public Cell[] getAnswer() {
-        return answer;
+    public int getBestDistance() {
+        return bestDistance;
     }
 
 }

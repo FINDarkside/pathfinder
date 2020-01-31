@@ -1,11 +1,12 @@
 package tiralabra.pathfinders;
 
 import java.util.ArrayList;
+import org.junit.Assert;
 import tiralabra.Cell;
 import tiralabra.Map;
 import tiralabra.MapLoader;
 
-public  class TestCases {
+public class TestCases {
 
     public static PathfinderTestCase simpleTestCase;
     public static PathfinderTestCase simpleNoPath;
@@ -28,7 +29,7 @@ public  class TestCases {
         simpleTestCase = new PathfinderTestCase(new Map(5, 5),
                 new Cell(0, 0),
                 new Cell(0, 4),
-                answer
+                4
         );
     }
 
@@ -40,7 +41,7 @@ public  class TestCases {
         simpleNoPath = new PathfinderTestCase(map,
                 new Cell(0, 0),
                 new Cell(4, 0),
-                null
+                -1
         );
     }
 
@@ -60,26 +61,20 @@ public  class TestCases {
 
         Map map = MapLoader.constructMap(mapString);
 
-        Cell[] answer = new Cell[]{
-            new Cell(0, 2),
-            new Cell(0, 1),
-            new Cell(0, 0),
-            new Cell(1, 0),
-            new Cell(2, 0),
-            new Cell(3, 0),
-            new Cell(4, 0),
-            new Cell(5, 0),
-            new Cell(6, 0),
-            new Cell(7, 0),
-            new Cell(8, 0),
-            new Cell(9, 0),
-            new Cell(9, 1),
-            new Cell(9, 2)};
-
         smallMaze = new PathfinderTestCase(map,
                 new Cell(1, 2),
                 new Cell(9, 2),
-                answer
+                14
         );
+    }
+    public static void validatePath(Map map, Cell[] path, Cell start, Cell goal) {
+        Assert.assertEquals("Last cell is goal", goal, path[path.length - 1]);
+        Cell prevCell = start;
+        for (Cell cell : path) {
+            int dist = Math.abs(prevCell.getX() - cell.getX()) + Math.abs(prevCell.getY() - cell.getY());
+            Assert.assertEquals("Contiguous cells in path must be adjacent in map", 1, dist);
+            Assert.assertEquals("Cells in path must not be blocked", false, map.isCellBlocked(cell));
+            prevCell = cell;
+        }
     }
 }
