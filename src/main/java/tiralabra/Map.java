@@ -14,24 +14,25 @@ public class Map {
     }
 
     /**
-     * Checks if cell is blocked.
+     * Checks if cell is blocked. Returns true if cell it out of bounds.
      *
      * @param cell
-     * @return true if cell is blocked
+     * @return true if cell is blocked or out of bounds
      */
     public boolean isCellBlocked(Cell cell) {
         return isCellBlocked(cell.getX(), cell.getY());
     }
 
     /**
-     * Returns if cell is blocked in given x and y.
+     * Returns if cell is blocked in given x and y. Returns true if cell it out
+     * of bounds.
      *
      * @param x
      * @param y
-     * @return true if cell is blocked
+     * @return true if cell is blocked or out of bounds
      */
     public boolean isCellBlocked(int x, int y) {
-        return map.get(x + y * width);
+        return !isInBounds(x, y) || map.get(x + y * width);
     }
 
     /**
