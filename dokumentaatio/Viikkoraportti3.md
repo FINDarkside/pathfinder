@@ -1,6 +1,6 @@
 # Viikkoraportti 3
 
-Tällä viikolla aloitin toteuttamaan jump point search algoritmia. Algoritmi on suht hyvässä kuosissa, mutta siinä on vielä joku ongelma jossa `prev` tauluun tulee sykli. Pathfinder siis kyllä löytää perille asti mutta sykli on ongelma kun muodostetaan reitti aivan lopuksi. Pienellä muutoksella sykli katoaa, mutta sen jälkeen jps antaa välillä epäoptimaalin ratkaisun tai ei ratkaisua ollenkaan vaikka sellainen olisi olemassa. En tosin ole tarkistanut että onko sykli tapauksissa jps edes löytänyt sitä optimaalista ratkaisua, pitää tarkistaa ensi viikolla.
+Tällä viikolla aloitin toteuttamaan jump point search algoritmia. Algoritmi on suht hyvässä kuosissa, mutta siinä on vielä joku ongelma jossa `prev` tauluun tulee sykli. Pathfinder siis kyllä löytää perille asti mutta sykli on ongelma kun muodostetaan reitti aivan lopuksi. Pienellä muutoksella sykli katoaa, mutta sen jälkeen jps antaa välillä epäoptimaalin ratkaisun tai ei ratkaisua ollenkaan vaikka sellainen olisi olemassa. En tosin ole tarkistanut että onko sykli tapauksissa jps edes löytänyt sitä optimaalista ratkaisua, pitää tarkistaa ensi viikolla. Lisäksi refaktoroin vähän testejä ja lisäsin uuden testitapauksen jolla JPS ei toiminut, vaikka aiemmat testitapaukset menikin läpi.
 
 Opin tällä viikolla paljon jump point searchin toiminnasta. Käytin aika montaa eri materiaalia, koska aina ei ollut helppoa ymmärtää miten algoritmin tulisi toimia ja missä järjestyksessä käsitellä asioita. Käytin ainakin seuraavia materiaaleja:
 
