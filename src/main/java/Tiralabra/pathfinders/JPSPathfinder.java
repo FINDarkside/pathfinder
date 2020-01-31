@@ -56,7 +56,7 @@ public class JPSPathfinder extends Pathfinder {
 
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
-            if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) <= currentNode.dist) {
+            if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) < currentNode.dist) {
                 continue;
             }
             System.out.println(currentNode.cell);
