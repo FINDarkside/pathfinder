@@ -9,29 +9,25 @@ public class AstarPathfinderTest {
 
     @Test
     public void returnsNullWhenNoPathExists() {
-        test(TestCases.simpleNoPath);
+        var testCase = TestCases.simpleNoPath;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
 
     @Test
     public void returnsShortestPathOnSimpleMap() {
-        test(TestCases.simpleTestCase);
+        var testCase = TestCases.simpleTestCase;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
 
     @Test
     public void returnsShortestPathOnSmallMaze() {
-        test(TestCases.smallMaze);
+        var testCase = TestCases.smallMaze;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
 
-    private void test(PathfinderTestCase testCase) {
-        Map map = testCase.getMap();
-        AstarPathfinder pathfinder = new AstarPathfinder(map);
-        Cell[] result = pathfinder.findPath(testCase.getStart(), testCase.getGoal());
-        //System.out.println(Arrays.toString(result));
-        if (testCase.getBestDistance() == -1) {
-            Assert.assertArrayEquals(null, result);
-        } else {
-            Assert.assertEquals(testCase.getBestDistance(), result.length);
-            TestCases.validatePath(map, result, testCase.getStart(), testCase.getGoal());
-        }
+    @Test
+    public void worksOnJPSCornerCase() {
+        var testCase = TestCases.jpsCornerCase;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
 }

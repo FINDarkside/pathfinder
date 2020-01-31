@@ -11,11 +11,24 @@ public class TestCases {
     public static PathfinderTestCase simpleTestCase;
     public static PathfinderTestCase simpleNoPath;
     public static PathfinderTestCase smallMaze;
+    public static PathfinderTestCase jpsCornerCase;
+
+    public static void test(Pathfinder pathfinder, PathfinderTestCase testCase) {
+        Cell[] result = pathfinder.findPath(testCase.getStart(), testCase.getGoal());
+        if (testCase.getBestDistance() == -1) {
+            Assert.assertArrayEquals(null, result);
+        } else {
+            Assert.assertNotNull(result);
+            Assert.assertEquals(testCase.getBestDistance(), result.length);
+            validatePath(testCase.getMap(), result, testCase.getStart(), testCase.getGoal());
+        }
+    }
 
     static {
         createSimpleTestCase();
         createSimpleNoPath();
         createSmallMaze();
+        createJPSCornerCase();
     }
 
     private static void createSimpleTestCase() {
@@ -67,6 +80,29 @@ public class TestCases {
                 14
         );
     }
+
+    private static void createJPSCornerCase() {
+        ArrayList<String> mapString = new ArrayList<>();
+        mapString.add("type octile");
+        mapString.add("height 7");
+        mapString.add("width 10");
+        mapString.add("map");
+        mapString.add("XXXXX.....");
+        mapString.add("XXXXX.....");
+        mapString.add("..........");
+        mapString.add("..........");
+        mapString.add("..........");
+        mapString.add("..........");
+        mapString.add("..........");
+
+        Map map = MapLoader.constructMap(mapString);
+        jpsCornerCase = new PathfinderTestCase(map,
+                new Cell(2, 4),
+                new Cell(6, 0),
+                8
+        );
+    }
+
     public static void validatePath(Map map, Cell[] path, Cell start, Cell goal) {
         Assert.assertEquals("Last cell is goal", goal, path[path.length - 1]);
         Cell prevCell = start;

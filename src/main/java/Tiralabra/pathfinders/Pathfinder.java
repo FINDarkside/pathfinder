@@ -40,7 +40,6 @@ public abstract class Pathfinder {
     protected boolean isBlockedOrOutOfBounds(int x, int y) {
         return !map.isInBounds(x, y) || map.isCellBlocked(x, y);
     }
-
     
     protected Cell[] reconstructPath(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
         // prev allows us to traverse the path backwards, but adding to start of array is O(n) operation
