@@ -92,7 +92,7 @@ public class JPSPathfinder extends Pathfinder {
 
             if (currentNode.cell.equals(goal)) {
                 System.out.println(currentNode.dist);
-                return null;
+                return reconstructPath(start, goal, prev);
             }
 
             searchDiagonal(map, currentNode, queue, prev, bestDist, goal, currentNode.dx, currentNode.dy);
@@ -242,6 +242,69 @@ public class JPSPathfinder extends Pathfinder {
             }
         }
         return result;
+    }
+
+    @Override
+    protected Cell[] reconstructPath(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
+        int length = calculatePathLength(start, goal, prev);
+        Cell[] path = new Cell[length];
+
+        int i = length - 1;
+        Cell currentCell = goal;
+
+        while (!currentCell.equals(start)) {
+            Cell nextCell = prev.get(currentCell);
+            int xDiff = Math.abs(currentCell.getX() - nextCell.getX());
+            int yDiff = Math.abs(currentCell.getY() - nextCell.getY());
+            int xDirection = currentCell.getX() < nextCell.getX() ? 1 : -1;
+            int yDirection = currentCell.getY() < nextCell.getY() ? 1 : -1;
+
+            if (xDiff == 0) {
+                // Vertical line
+                for (int j = 0; j < yDiff; j++) {
+                    path[i--] = new Cell(nextCell.getX(), currentCell.getY() + j * yDirection);
+                    System.out.println(path[i + 1]);
+                }
+            } else if (yDiff == 0) {
+                // Horizontal line
+                for (int j = 0; j < xDiff; j++) {
+                    path[i--] = new Cell(currentCell.getX() + j * xDirection, nextCell.getY());
+                    System.out.println(path[i + 1]);
+                }
+            } else {
+                if (xDiff != yDiff) {
+                    throw new RuntimeException("Kakkaa tuulettimessa");
+                }
+                int x = currentCell.getX(), y = currentCell.getY();
+                for (int j = 0; j < xDiff; j++) {
+                    path[i--] = new Cell(x, y);
+                    if (!map.isCellBlocked(x + xDirection, y)) {
+                        path[i--] = new Cell(x + xDirection, y);
+                    } else {
+                        path[i--] = new Cell(x, y + yDirection);
+                    }
+                    System.out.println(path[i + 2]);
+                    System.out.println(path[i + 1]);
+                    x += xDirection;
+                    y += yDirection;
+                }
+            }
+            currentCell = nextCell;
+        }
+        return path;
+    }
+
+    @Override
+    protected int calculatePathLength(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
+        int length = 0;
+        Cell currentCell = goal;
+        while (!currentCell.equals(start)) {
+            Cell nextCell = prev.get(currentCell);
+            length += Math.abs((currentCell.getX() - nextCell.getX()));
+            length += Math.abs((currentCell.getY() - nextCell.getY()));
+            currentCell = nextCell;
+        }
+        return length;
     }
 
     private int manhattanDistance(Cell start, Cell goal) {
