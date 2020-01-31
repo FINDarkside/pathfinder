@@ -19,7 +19,7 @@ public class Cell {
 
     @Override
     public boolean equals(Object obj) {
-        if (!obj.getClass().equals(Cell.class)) {
+        if (obj == null || !obj.getClass().equals(Cell.class)) {
             return false;
         }
         Cell cell = (Cell) obj;
