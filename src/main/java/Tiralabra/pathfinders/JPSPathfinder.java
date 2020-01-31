@@ -82,7 +82,7 @@ public class JPSPathfinder extends Pathfinder {
             }
             bestDist.put(currentCell, dist);
 
-            var verticalJumpPoints = jumpStraight(map, node, bestDist, goal, 0, dy);
+            var verticalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, goal, 0, dy);
             if (!verticalJumpPoints.isEmpty()) {
                 int estimatedDistance = dist + manhattanDistance(currentCell, goal);
                 queue.add(new PathNode(currentCell, dist, estimatedDistance, dx, dy));
@@ -90,7 +90,7 @@ public class JPSPathfinder extends Pathfinder {
                 prev.put(verticalJumpPoints.get(0).cell, currentCell);
                 return;
             }
-            var horizontalJumpPoints = jumpStraight(map, node, bestDist, goal, dx, 0);
+            var horizontalJumpPoints = jumpStraight(map, currentCell, dist, bestDist, goal, dx, 0);
             if (!horizontalJumpPoints.isEmpty()) {
                 int estimatedDistance = dist + manhattanDistance(currentCell, goal);
                 queue.add(new PathNode(currentCell, dist, estimatedDistance, dx, dy));
@@ -119,22 +119,25 @@ public class JPSPathfinder extends Pathfinder {
      * @param dx -1, 0 or 1. Should be 0 if dy != 0
      * @param dy -1, 0 or 1. Should be 0 if dx != 0
      */
-    private ArrayList<PathNode> jumpStraight(Map map, PathNode node, HashMap<Cell, Integer> bestDist, Cell goal, int dx, int dy) {
-        int dist = node.dist + 1;
-        Cell currentCell = new Cell(node.cell.getX() + dx, node.cell.getY() + dy);
+    private ArrayList<PathNode> jumpStraight(Map map, Cell cell, int dist, HashMap<Cell, Integer> bestDist, Cell goal, int dx, int dy) {
+        // FIXME: Don't move one block before checking for jump points. 
+        // And don't break if the first cell has been visited before with same distance.
+        dist++;
+        Cell currentCell = new Cell(cell.getX() + dx, cell.getY() + dy);
 
         while (!map.isCellBlocked(currentCell.getX(), currentCell.getY())) {
             if (bestDist.containsKey(currentCell) && bestDist.get(currentCell) <= dist) {
                 break;
             }
             bestDist.put(currentCell, dist);
-            
+
             if (currentCell.equals(goal)) {
                 ArrayList<PathNode> result = new ArrayList<>();
-                result.add(new PathNode(currentCell, dist, dist, 0, 0));
+                int estimatedDistance = dist + manhattanDistance(currentCell, goal);
+                result.add(new PathNode(currentCell, dist, estimatedDistance, 0, 0));
                 return result;
             }
-            var newJumpPoints = getJumpPoints(map, currentCell, dx, dy, dy, goal);
+            var newJumpPoints = getJumpPoints(map, currentCell, dx, dy, dist, goal);
             if (!newJumpPoints.isEmpty()) {
                 return newJumpPoints;
             }
