@@ -95,7 +95,7 @@ public class JPSPathfinder extends Pathfinder {
                 int estimatedDistance = dist + manhattanDistance(currentCell, goal);
                 queue.add(new PathNode(currentCell, dist, estimatedDistance, dx, dy));
                 queue.addAll(verticalJumpPoints);
-                prev.put(verticalJumpPoints.get(0).cell, currentCell);
+                prev.put(horizontalJumpPoints.get(0).cell, currentCell);
                 return;
             }
 
