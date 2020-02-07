@@ -133,10 +133,12 @@ public class JPSPathfinder extends Pathfinder {
 
             var diagonalJumpPoints = getJumpPoints(map, currentCell, dx, dy, dist, goal);
             if (!diagonalJumpPoints.isEmpty()) {
-                queue.addAll(diagonalJumpPoints);
-                prev.put(diagonalJumpPoints.get(0).cell, currentCell);
-                if (!currentCell.equals(node.cell)) {
-                    prev.put(currentCell, node.cell);
+                if (diagonalJumpPoints.get(0).dist <= bestDist.getOrDefault(diagonalJumpPoints.get(0).cell, Integer.MAX_VALUE)) {
+                    queue.addAll(diagonalJumpPoints);
+                    prev.put(diagonalJumpPoints.get(0).cell, currentCell);
+                    if (!currentCell.equals(node.cell)) {
+                        prev.put(currentCell, node.cell);
+                    }
                 }
                 return;
             }
