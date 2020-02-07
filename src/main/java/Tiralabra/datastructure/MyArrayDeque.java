@@ -49,6 +49,10 @@ public class MyArrayDeque<T> {
         return (T) lastItem;
     }
 
+    public int size() {
+        return itemCount;
+    }
+
     private void grow() {
         Object[] newArr = new Object[size * 2];
         for (int i = 0; i < size; i++) {
