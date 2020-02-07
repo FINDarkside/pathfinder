@@ -44,4 +44,11 @@ public class AstarPathfinderTest {
         var testCase = TestCases.jpsCornerCase3;
         TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
+    
+    @Test
+    public void worksOnJPSCornerCase4() {
+        var testCase = TestCases.jpsCornerCase4;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
+    }
+    
 }

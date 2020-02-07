@@ -14,6 +14,7 @@ public class TestCases {
     public static PathfinderTestCase jpsCornerCase;
     public static PathfinderTestCase jpsCornerCase2;
     public static PathfinderTestCase jpsCornerCase3;
+    public static PathfinderTestCase jpsCornerCase4;
 
     public static void test(Pathfinder pathfinder, PathfinderTestCase testCase) {
         Cell[] result = pathfinder.findPath(testCase.getStart(), testCase.getGoal());
@@ -33,6 +34,7 @@ public class TestCases {
         createJPSCornerCase();
         createJPSCornerCase2();
         createJPSCornerCase3();
+        createJPSCornerCase4();
     }
 
     private static void createSimpleTestCase() {
@@ -137,6 +139,33 @@ public class TestCases {
                 new Cell(5, 2),
                 new Cell(5, 0),
                 8
+        );
+    }
+
+    private static void createJPSCornerCase4() {
+        ArrayList<String> mapString = new ArrayList<>();
+        mapString.add("type octile");
+        mapString.add("height 12");
+        mapString.add("width 15");
+        mapString.add("map");
+        mapString.add("X.............X");
+        mapString.add("X.............X");
+        mapString.add("X.............X");
+        mapString.add("X.............X");
+        mapString.add("X.............X");
+        mapString.add("X....XXXX.....X");
+        mapString.add("XX...XXXX.....X");
+        mapString.add("X....XXXX.....X");
+        mapString.add("X....XXX......X");
+        mapString.add("X.............X");
+        mapString.add("X.............X");
+        mapString.add("X.............X");
+
+        Map map = MapLoader.constructMap(mapString);
+        jpsCornerCase4 = new PathfinderTestCase(map,
+                new Cell(7, 11),
+                new Cell(6, 1),
+                15
         );
     }
 
