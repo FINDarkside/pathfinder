@@ -81,9 +81,6 @@ public class JPSPathfinder extends Pathfinder {
             var diagonalJumpPoints = getJumpPoints(currentCell, dx, dy, dist, context);
             if (!diagonalJumpPoints.isEmpty()) {
                 if (diagonalJumpPoints.get(0).dist <= context.bestDist.getOrDefault(diagonalJumpPoints.get(0).cell, Integer.MAX_VALUE)) {
-                    for (int i = 0; i < diagonalJumpPoints.size(); i++) {
-                        context.queue.add(diagonalJumpPoints.get(i));
-                    }
                     context.queue.addAll(diagonalJumpPoints);
                     context.prev.put(diagonalJumpPoints.get(0).cell, currentCell);
                     context.bestDist.put(diagonalJumpPoints.get(0).cell, diagonalJumpPoints.get(0).dist);
