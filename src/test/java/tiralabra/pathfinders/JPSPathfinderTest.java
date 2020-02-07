@@ -1,5 +1,6 @@
 package tiralabra.pathfinders;
 
+import tiralabra.pathfinders.jps.JPSPathfinder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
