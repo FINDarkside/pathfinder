@@ -7,6 +7,11 @@ public class MyArrayDeque<T> {
     private int itemCount = 0;
     private int arrayStart;
 
+    /**
+     * Adds new value to deque.
+     *
+     * @param value
+     */
     public void add(T value) {
         if (itemCount == size) {
             grow();
@@ -15,6 +20,11 @@ public class MyArrayDeque<T> {
         array[insertIndex] = value;
     }
 
+    /**
+     * Adds value to the start of deque.
+     *
+     * @param value
+     */
     public void addFirst(T value) {
         if (itemCount == size) {
             grow();
@@ -25,6 +35,12 @@ public class MyArrayDeque<T> {
         arrayStart = insertIndex;
     }
 
+    /**
+     * Gets the last element of deque.
+     *
+     * @param index
+     * @return Last element of deque.
+     */
     public T get(int index) {
         if (index < 0 || index >= itemCount) {
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
@@ -33,6 +49,11 @@ public class MyArrayDeque<T> {
         return (T) array[realIndex];
     }
 
+    /**
+     * Removes and returns first element.
+     *
+     * @return First element of deque.
+     */
     public T removeFirst() {
         var firstItem = array[arrayStart];
         array[arrayStart] = null;
@@ -41,6 +62,11 @@ public class MyArrayDeque<T> {
         return (T) firstItem;
     }
 
+    /**
+     * Removes and returns last element.
+     *
+     * @return Last element of deque.
+     */
     public T removeLast() {
         int index = getRealIndexOf(itemCount - 1);
         var lastItem = array[index];
@@ -49,10 +75,20 @@ public class MyArrayDeque<T> {
         return (T) lastItem;
     }
 
+    /**
+     * Returns the amount of items in deque.
+     *
+     * @return amount of items in deque.
+     */
     public int size() {
         return itemCount;
     }
-    
+
+    /**
+     * Returns whether deque is empty.
+     *
+     * @return true if deque is empty, otherwise false.
+     */
     public boolean isEmpty() {
         return size() == 0;
     }

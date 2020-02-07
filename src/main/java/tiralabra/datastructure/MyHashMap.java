@@ -11,6 +11,12 @@ public class MyHashMap<K, V> {
     private final float loadFactor = DEFAULT_LOAD_FACTOR;
     private float threshold = DEFAULT_CAPACITY * loadFactor;
 
+    /**
+     * Associates key with given value.
+     *
+     * @param key
+     * @param value
+     */
     public void put(K key, V value) {
         int bucket = getBucket(key);
         insertBucket(key, value, bucket);
@@ -19,6 +25,12 @@ public class MyHashMap<K, V> {
         }
     }
 
+    /**
+     * Gets the value associated with key.
+     *
+     * @param key
+     * @return value associated with key.
+     */
     public V get(K key) {
         int bucket = getBucket(key);
         var currentNode = nodes[bucket];
@@ -31,6 +43,14 @@ public class MyHashMap<K, V> {
         return null;
     }
 
+    /**
+     * Gets the value associated with key or default value if key does not
+     * exist.
+     *
+     * @param key
+     * @param defaultValue Value to return if key doesn't exist.
+     * @return value associated with key or default value if key does not exist.
+     */
     public V getOrDefault(K key, V defaultValue) {
         var val = get(key);
         return val != null ? val : defaultValue;

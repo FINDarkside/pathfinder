@@ -1,6 +1,6 @@
 package tiralabra.datastructure;
 
-public class HashMapNode<K, V> {
+class HashMapNode<K, V> {
 
     private K key;
     private V value;
