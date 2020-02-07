@@ -36,7 +36,7 @@ public class MyArrayDeque<T> {
     public T removeFirst() {
         var firstItem = array[arrayStart];
         array[arrayStart] = null;
-        arrayStart++;
+        arrayStart = getRealIndexOf(1);
         itemCount--;
         return (T) firstItem;
     }
