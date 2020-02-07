@@ -23,7 +23,11 @@ public class AstarPathfinder extends Pathfinder {
 
         @Override
         public int compareTo(PathNode node) {
-            return estimatedDist - node.estimatedDist;
+            int estimatedDiff = estimatedDist - node.estimatedDist;
+            if (estimatedDiff == 0) {
+                return node.dist - dist;
+            }
+            return estimatedDiff;
         }
 
     }
