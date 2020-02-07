@@ -26,7 +26,7 @@ public class MyArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index >= itemCount) {
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
         }
         int realIndex = (index + arrayStart) % size;
