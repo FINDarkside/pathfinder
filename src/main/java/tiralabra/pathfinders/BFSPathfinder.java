@@ -2,9 +2,9 @@ package tiralabra.pathfinders;
 
 import tiralabra.Cell;
 import tiralabra.Map;
-import java.util.ArrayDeque;
-import java.util.BitSet;
-import java.util.HashMap;
+import tiralabra.datastructure.MyArrayDeque;
+import tiralabra.datastructure.MyBitSet;
+import tiralabra.datastructure.MyHashMap;
 
 public class BFSPathfinder extends Pathfinder {
 
@@ -20,15 +20,15 @@ public class BFSPathfinder extends Pathfinder {
         if (map.isCellBlocked(start) || map.isCellBlocked(goal)) {
             return null;
         }
-        ArrayDeque<Cell> queue = new ArrayDeque<>();
-        BitSet used = new BitSet(map.getHeight() * map.getWidth());
-        HashMap<Cell, Cell> prev = new HashMap<>();
+        MyArrayDeque<Cell> queue = new MyArrayDeque<>();
+        MyBitSet used = new MyBitSet(map.getHeight() * map.getWidth());
+        MyHashMap<Cell, Cell> prev = new MyHashMap<>();
 
         queue.add(start);
         used.set(start.getX() + start.getY() * map.getWidth());
 
-        while (!queue.isEmpty()) {
-            Cell cell = queue.pop();
+        while (queue.size() != 0) {
+            Cell cell = queue.removeFirst();
             for (Cell nextCell : getAdjacentCells(cell)) {
                 int bitSetIndex = nextCell.getX() + nextCell.getY() * map.getWidth();
                 if (used.get(bitSetIndex)) {

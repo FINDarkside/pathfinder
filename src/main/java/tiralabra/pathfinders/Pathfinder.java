@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import tiralabra.Cell;
 import tiralabra.Map;
+import tiralabra.datastructure.MyHashMap;
 
 public abstract class Pathfinder {
 
@@ -41,7 +42,7 @@ public abstract class Pathfinder {
         return !map.isInBounds(x, y) || map.isCellBlocked(x, y);
     }
     
-    protected Cell[] reconstructPath(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
+    protected Cell[] reconstructPath(Cell start, Cell goal, MyHashMap<Cell, Cell> prev) {
         // prev allows us to traverse the path backwards, but adding to start of array is O(n) operation
         // so we first calculate path length and use indices to set cells
         int pathLength = calculatePathLength(start, goal, prev);
@@ -54,7 +55,7 @@ public abstract class Pathfinder {
         return path;
     }
 
-    protected int calculatePathLength(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
+    protected int calculatePathLength(Cell start, Cell goal, MyHashMap<Cell, Cell> prev) {
         int length = 0;
         Cell currentCell = goal;
         while (!currentCell.equals(start)) {

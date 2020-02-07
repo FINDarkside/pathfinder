@@ -52,6 +52,10 @@ public class MyArrayDeque<T> {
     public int size() {
         return itemCount;
     }
+    
+    public boolean isEmpty() {
+        return size() == 0;
+    }
 
     private void grow() {
         Object[] newArr = new Object[size * 2];

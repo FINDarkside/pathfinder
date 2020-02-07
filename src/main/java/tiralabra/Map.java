@@ -1,16 +1,16 @@
 package tiralabra;
 
-import java.util.BitSet;
+import tiralabra.datastructure.MyBitSet;
 
 public class Map {
 
     private int width, height;
-    private BitSet map;
+    private MyBitSet map;
 
     public Map(int width, int height) {
         this.width = width;
         this.height = height;
-        map = new BitSet(width * height);
+        map = new MyBitSet(width * height);
     }
 
     /**

@@ -1,12 +1,10 @@
 package tiralabra.pathfinders.jps;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.PriorityQueue;
 import tiralabra.Cell;
 import tiralabra.Map;
+import tiralabra.datastructure.MyArrayDeque;
+import tiralabra.datastructure.MyHashMap;
+import tiralabra.datastructure.MyPriorityQueue;
 import tiralabra.pathfinders.Pathfinder;
 
 public class JPSPathfinder extends Pathfinder {
@@ -23,9 +21,9 @@ public class JPSPathfinder extends Pathfinder {
         if (map.isCellBlocked(start) || map.isCellBlocked(goal)) {
             return null;
         }
-        PriorityQueue<PathNode> queue = new PriorityQueue<>();
-        HashMap<Cell, Cell> prev = new HashMap<>();
-        HashMap<Cell, Integer> bestDist = new HashMap<>();
+        MyPriorityQueue<PathNode> queue = new MyPriorityQueue<>();
+        MyHashMap<Cell, Cell> prev = new MyHashMap<>();
+        MyHashMap<Cell, Integer> bestDist = new MyHashMap<>();
         var context = new JPSSearchContext(queue, prev, bestDist, start, goal);
 
         queue.add(new PathNode(start, 0, manhattanDistance(start, goal), 1, 1));
@@ -35,7 +33,7 @@ public class JPSPathfinder extends Pathfinder {
 
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
-            if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) < currentNode.dist) {
+            if (currentNode.dist > bestDist.getOrDefault(currentNode.cell, Integer.MAX_VALUE)) {
                 continue;
             }
             if (currentNode.cell.equals(goal)) {
@@ -52,7 +50,7 @@ public class JPSPathfinder extends Pathfinder {
         Cell currentCell = node.cell;
 
         while (!map.isCellBlocked(currentCell.getX(), currentCell.getY())) {
-            if (context.bestDist.containsKey(currentCell) && context.bestDist.get(currentCell) < dist) {
+            if (dist > context.bestDist.getOrDefault(currentCell, Integer.MAX_VALUE)) {
                 break;
             }
             context.bestDist.put(currentCell, dist);
@@ -83,6 +81,9 @@ public class JPSPathfinder extends Pathfinder {
             var diagonalJumpPoints = getJumpPoints(currentCell, dx, dy, dist, context);
             if (!diagonalJumpPoints.isEmpty()) {
                 if (diagonalJumpPoints.get(0).dist <= context.bestDist.getOrDefault(diagonalJumpPoints.get(0).cell, Integer.MAX_VALUE)) {
+                    for (int i = 0; i < diagonalJumpPoints.size(); i++) {
+                        context.queue.add(diagonalJumpPoints.get(i));
+                    }
                     context.queue.addAll(diagonalJumpPoints);
                     context.prev.put(diagonalJumpPoints.get(0).cell, currentCell);
                     context.bestDist.put(diagonalJumpPoints.get(0).cell, diagonalJumpPoints.get(0).dist);
@@ -113,17 +114,17 @@ public class JPSPathfinder extends Pathfinder {
      * @param dx -1, 0 or 1. Should be 0 if dy != 0
      * @param dy -1, 0 or 1. Should be 0 if dx != 0
      */
-    private ArrayList<PathNode> jumpStraight(Cell cell, int dist, int dx, int dy, JPSSearchContext context) {
+    private MyArrayDeque<PathNode> jumpStraight(Cell cell, int dist, int dx, int dy, JPSSearchContext context) {
         Cell currentCell = new Cell(cell.getX() + dx, cell.getY() + dy);
         dist++;
         while (!map.isCellBlocked(currentCell.getX(), currentCell.getY())) {
-            if (context.bestDist.containsKey(currentCell) && context.bestDist.get(currentCell) <= dist) {
+            if (context.bestDist.getOrDefault(currentCell, Integer.MAX_VALUE) <= dist) {
                 break;
             }
             context.bestDist.put(currentCell, dist);
 
             if (currentCell.equals(context.goal)) {
-                ArrayList<PathNode> result = new ArrayList<>();
+                MyArrayDeque<PathNode> result = new MyArrayDeque<>();
                 result.add(new PathNode(currentCell, dist, dist, 0, 0));
                 return result;
             }
@@ -135,7 +136,7 @@ public class JPSPathfinder extends Pathfinder {
             currentCell = new Cell(currentCell.getX() + dx, currentCell.getY() + dy);
             dist++;
         }
-        return new ArrayList<>();
+        return new MyArrayDeque<>();
     }
 
     /**
@@ -150,8 +151,8 @@ public class JPSPathfinder extends Pathfinder {
      * @return pathnodes expanding in direction of forced neighbors or empty
      * list
      */
-    private ArrayList<PathNode> getJumpPoints(Cell cell, int dx, int dy, int dist, JPSSearchContext context) {
-        ArrayList<PathNode> result = new ArrayList<>();
+    private MyArrayDeque<PathNode> getJumpPoints(Cell cell, int dx, int dy, int dist, JPSSearchContext context) {
+        MyArrayDeque<PathNode> result = new MyArrayDeque<>();
         // Horizontal movement
         int x = cell.getX();
         int y = cell.getY();
@@ -193,7 +194,7 @@ public class JPSPathfinder extends Pathfinder {
     }
 
     @Override
-    protected Cell[] reconstructPath(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
+    protected Cell[] reconstructPath(Cell start, Cell goal, MyHashMap<Cell, Cell> prev) {
         int length = calculatePathLength(start, goal, prev);
         Cell[] path = new Cell[length];
 
@@ -239,7 +240,7 @@ public class JPSPathfinder extends Pathfinder {
     }
 
     @Override
-    protected int calculatePathLength(Cell start, Cell goal, HashMap<Cell, Cell> prev) {
+    protected int calculatePathLength(Cell start, Cell goal, MyHashMap<Cell, Cell> prev) {
         int length = 0;
         Cell currentCell = goal;
         while (!currentCell.equals(start)) {

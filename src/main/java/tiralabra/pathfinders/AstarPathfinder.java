@@ -1,11 +1,10 @@
 package tiralabra.pathfinders;
 
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.PriorityQueue;
 import tiralabra.Cell;
 import tiralabra.Map;
+import tiralabra.datastructure.MyHashMap;
+import tiralabra.datastructure.MyHashSet;
+import tiralabra.datastructure.MyPriorityQueue;
 
 public class AstarPathfinder extends Pathfinder {
 
@@ -44,10 +43,10 @@ public class AstarPathfinder extends Pathfinder {
         if (map.isCellBlocked(start) || map.isCellBlocked(goal)) {
             return null;
         }
-        PriorityQueue<PathNode> queue = new PriorityQueue<>();
-        HashSet<Cell> closed = new HashSet();
-        HashMap<Cell, Cell> prev = new HashMap<>();
-        HashMap<Cell, Integer> bestDist = new HashMap<>();
+        MyPriorityQueue<PathNode> queue = new MyPriorityQueue<>();
+        MyHashSet<Cell> closed = new MyHashSet();
+        MyHashMap<Cell, Cell> prev = new MyHashMap<>();
+        MyHashMap<Cell, Integer> bestDist = new MyHashMap<>();
 
         queue.add(new PathNode(start, 0, manhattanDistance(start, goal)));
 
@@ -62,7 +61,7 @@ public class AstarPathfinder extends Pathfinder {
             }
             for (Cell nextCell : getAdjacentCells(currentNode.cell)) {
                 int dist = currentNode.dist + 1;
-                if (!bestDist.containsKey(nextCell) || bestDist.get(nextCell) > dist) {
+                if (dist < bestDist.getOrDefault(nextCell, Integer.MAX_VALUE)) {
                     prev.put(nextCell, currentNode.cell);
                     bestDist.put(nextCell, dist);
                     int estimatedDist = dist + manhattanDistance(nextCell, goal);
