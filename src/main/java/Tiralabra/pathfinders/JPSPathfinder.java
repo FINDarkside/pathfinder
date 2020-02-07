@@ -81,14 +81,12 @@ public class JPSPathfinder extends Pathfinder {
 
         while (!queue.isEmpty()) {
             PathNode currentNode = queue.poll();
-            System.out.println(currentNode.cell);
             closed.add(currentNode);
             if (bestDist.containsKey(currentNode.cell) && bestDist.get(currentNode.cell) < currentNode.dist) {
                 continue;
             }
 
             if (currentNode.cell.equals(goal)) {
-                System.out.println("Found path " + currentNode.dist);
                 return reconstructPath(start, goal, prev);
             }
 
