@@ -8,7 +8,7 @@ public class AstarPathfinderTest {
 
     @Rule
     public Timeout globalTimeout = Timeout.seconds(2);
-    
+
     @Test
     public void returnsNullWhenNoPathExists() {
         var testCase = TestCases.simpleNoPath;
@@ -32,7 +32,7 @@ public class AstarPathfinderTest {
         var testCase = TestCases.jpsCornerCase;
         TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
-    
+
     @Test
     public void worksOnJPSCornerCase2() {
         var testCase = TestCases.jpsCornerCase2;
@@ -44,11 +44,29 @@ public class AstarPathfinderTest {
         var testCase = TestCases.jpsCornerCase3;
         TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
-    
+
     @Test
     public void worksOnJPSCornerCase4() {
         var testCase = TestCases.jpsCornerCase4;
         TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
     }
-    
+
+    @Test
+    public void worksOnStartBlocked() {
+        var testCase = TestCases.startBlocked;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
+    }
+
+    @Test
+    public void worksOnGoalBlocked() {
+        var testCase = TestCases.goalBlocked;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
+    }
+
+    @Test
+    public void worksWhenStartIsGoal() {
+        var testCase = TestCases.startIsGoal;
+        TestCases.test(new AstarPathfinder(testCase.getMap()), testCase);
+    }
+
 }

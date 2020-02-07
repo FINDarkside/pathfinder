@@ -52,4 +52,22 @@ public class JPSPathfinderTest {
         TestCases.test(new JPSPathfinder(testCase.getMap()), testCase);
     }
     
+    @Test
+    public void worksOnStartBlocked() {
+        var testCase = TestCases.startBlocked;
+        TestCases.test(new JPSPathfinder(testCase.getMap()), testCase);
+    }
+
+    @Test
+    public void worksOnGoalBlocked() {
+        var testCase = TestCases.goalBlocked;
+        TestCases.test(new JPSPathfinder(testCase.getMap()), testCase);
+    }
+
+    @Test
+    public void worksWhenStartIsGoal() {
+        var testCase = TestCases.startIsGoal;
+        TestCases.test(new JPSPathfinder(testCase.getMap()), testCase);
+    }
+    
 }

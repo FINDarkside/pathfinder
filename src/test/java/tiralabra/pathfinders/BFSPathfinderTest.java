@@ -54,4 +54,22 @@ public class BFSPathfinderTest {
         TestCases.test(new BFSPathfinder(testCase.getMap()), testCase);
     }
     
+    @Test
+    public void worksOnStartBlocked() {
+        var testCase = TestCases.startBlocked;
+        TestCases.test(new BFSPathfinder(testCase.getMap()), testCase);
+    }
+
+    @Test
+    public void worksOnGoalBlocked() {
+        var testCase = TestCases.goalBlocked;
+        TestCases.test(new BFSPathfinder(testCase.getMap()), testCase);
+    }
+
+    @Test
+    public void worksWhenStartIsGoal() {
+        var testCase = TestCases.startIsGoal;
+        TestCases.test(new BFSPathfinder(testCase.getMap()), testCase);
+    }
+    
 }

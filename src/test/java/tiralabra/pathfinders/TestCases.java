@@ -15,6 +15,9 @@ public class TestCases {
     public static PathfinderTestCase jpsCornerCase2;
     public static PathfinderTestCase jpsCornerCase3;
     public static PathfinderTestCase jpsCornerCase4;
+    public static PathfinderTestCase startBlocked;
+    public static PathfinderTestCase goalBlocked;
+    public static PathfinderTestCase startIsGoal;
 
     public static void test(Pathfinder pathfinder, PathfinderTestCase testCase) {
         Cell[] result = pathfinder.findPath(testCase.getStart(), testCase.getGoal());
@@ -23,41 +26,46 @@ public class TestCases {
         } else {
             Assert.assertNotNull(result);
             Assert.assertEquals(testCase.getBestDistance(), result.length);
-            validatePath(testCase.getMap(), result, testCase.getStart(), testCase.getGoal());
+            if (testCase.getBestDistance() != 0) {
+                validatePath(testCase.getMap(), result, testCase.getStart(), testCase.getGoal());
+            }
         }
     }
 
     static {
-        createSimpleTestCase();
-        createSimpleNoPath();
-        createSmallMaze();
-        createJPSCornerCase();
-        createJPSCornerCase2();
-        createJPSCornerCase3();
-        createJPSCornerCase4();
+        simpleTestCase = createSimpleTestCase();
+        simpleNoPath = createSimpleNoPath();
+        smallMaze = createSmallMaze();
+        jpsCornerCase = createJPSCornerCase();
+        jpsCornerCase2 = createJPSCornerCase2();
+        jpsCornerCase3 = createJPSCornerCase3();
+        jpsCornerCase4 = createJPSCornerCase4();
+        startBlocked = createStartBlocked();
+        goalBlocked = createGoalBlocked();
+        startIsGoal = createStartIsGoal();
     }
 
-    private static void createSimpleTestCase() {
-        simpleTestCase = new PathfinderTestCase(new Map(5, 5),
+    private static PathfinderTestCase createSimpleTestCase() {
+        return new PathfinderTestCase(new Map(5, 5),
                 new Cell(0, 0),
                 new Cell(0, 4),
                 4
         );
     }
 
-    private static void createSimpleNoPath() {
+    private static PathfinderTestCase createSimpleNoPath() {
         Map map = new Map(5, 5);
         for (int i = 0; i < 5; i++) {
             map.setCell(2, i, true);
         }
-        simpleNoPath = new PathfinderTestCase(map,
+        return new PathfinderTestCase(map,
                 new Cell(0, 0),
                 new Cell(4, 0),
                 -1
         );
     }
 
-    private static void createSmallMaze() {
+    private static PathfinderTestCase createSmallMaze() {
         ArrayList<String> mapString = new ArrayList<String>();
         mapString.add("type octile");
         mapString.add("height 7");
@@ -73,14 +81,14 @@ public class TestCases {
 
         Map map = MapLoader.constructMap(mapString);
 
-        smallMaze = new PathfinderTestCase(map,
+        return new PathfinderTestCase(map,
                 new Cell(1, 2),
                 new Cell(9, 2),
                 14
         );
     }
 
-    private static void createJPSCornerCase() {
+    private static PathfinderTestCase createJPSCornerCase() {
         ArrayList<String> mapString = new ArrayList<>();
         mapString.add("type octile");
         mapString.add("height 7");
@@ -95,14 +103,14 @@ public class TestCases {
         mapString.add("..........");
 
         Map map = MapLoader.constructMap(mapString);
-        jpsCornerCase = new PathfinderTestCase(map,
+        return new PathfinderTestCase(map,
                 new Cell(2, 4),
                 new Cell(6, 0),
                 8
         );
     }
 
-    private static void createJPSCornerCase2() {
+    private static PathfinderTestCase createJPSCornerCase2() {
         ArrayList<String> mapString = new ArrayList<>();
         mapString.add("type octile");
         mapString.add("height 7");
@@ -117,14 +125,14 @@ public class TestCases {
         mapString.add("......X...");
 
         Map map = MapLoader.constructMap(mapString);
-        jpsCornerCase2 = new PathfinderTestCase(map,
+        return new PathfinderTestCase(map,
                 new Cell(4, 4),
                 new Cell(4, 0),
                 6
         );
     }
 
-    private static void createJPSCornerCase3() {
+    private static PathfinderTestCase createJPSCornerCase3() {
         ArrayList<String> mapString = new ArrayList<>();
         mapString.add("type octile");
         mapString.add("height 3");
@@ -135,14 +143,14 @@ public class TestCases {
         mapString.add("..........");
 
         Map map = MapLoader.constructMap(mapString);
-        jpsCornerCase3 = new PathfinderTestCase(map,
+        return new PathfinderTestCase(map,
                 new Cell(5, 2),
                 new Cell(5, 0),
                 8
         );
     }
 
-    private static void createJPSCornerCase4() {
+    private static PathfinderTestCase createJPSCornerCase4() {
         ArrayList<String> mapString = new ArrayList<>();
         mapString.add("type octile");
         mapString.add("height 12");
@@ -162,10 +170,39 @@ public class TestCases {
         mapString.add("X.............X");
 
         Map map = MapLoader.constructMap(mapString);
-        jpsCornerCase4 = new PathfinderTestCase(map,
+        return new PathfinderTestCase(map,
                 new Cell(7, 11),
                 new Cell(6, 1),
                 15
+        );
+    }
+
+    private static PathfinderTestCase createStartBlocked() {
+        Map map = new Map(3, 3);
+        map.setCell(0, 0, true);
+        return new PathfinderTestCase(map,
+                new Cell(0, 0),
+                new Cell(1, 1),
+                -1
+        );
+    }
+
+    private static PathfinderTestCase createGoalBlocked() {
+        Map map = new Map(3, 3);
+        map.setCell(1, 1, true);
+        return new PathfinderTestCase(map,
+                new Cell(0, 0),
+                new Cell(1, 1),
+                -1
+        );
+    }
+
+    private static PathfinderTestCase createStartIsGoal() {
+        Map map = new Map(3, 3);
+        return new PathfinderTestCase(map,
+                new Cell(0, 0),
+                new Cell(0, 0),
+                0
         );
     }
 
