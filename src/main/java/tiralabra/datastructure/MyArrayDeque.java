@@ -1,5 +1,11 @@
 package tiralabra.datastructure;
 
+/**
+ * Data structure allowing O(1) operations for removing and adding in either end
+ * of the list. Accessing by index is O(1) as well.
+ *
+ * @param <T> type of elements in deque.
+ */
 public class MyArrayDeque<T> {
 
     private Object[] array = new Object[10];
