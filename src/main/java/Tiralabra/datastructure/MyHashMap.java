@@ -1,17 +1,17 @@
 package tiralabra.datastructure;
 
-public class MyHashMap<KT, VT> {
+public class MyHashMap<K, V> {
 
     private static final int DEFAULT_CAPACITY = 16;
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
-    private HashMapNode<KT, VT>[] nodes = new HashMapNode[DEFAULT_CAPACITY];
+    private HashMapNode<K, V>[] nodes = new HashMapNode[DEFAULT_CAPACITY];
     private int nodeCount = 0;
     private int size = DEFAULT_CAPACITY;
     private final float loadFactor = DEFAULT_LOAD_FACTOR;
     private float threshold = DEFAULT_CAPACITY * loadFactor;
 
-    public void put(KT key, VT value) {
+    public void put(K key, V value) {
         int bucket = getBucket(key);
         insertBucket(key, value, bucket);
         if (nodeCount > threshold) {
@@ -19,7 +19,7 @@ public class MyHashMap<KT, VT> {
         }
     }
 
-    public VT get(KT key) {
+    public V get(K key) {
         int bucket = getBucket(key);
         var currentNode = nodes[bucket];
         while (currentNode != null) {
@@ -31,12 +31,12 @@ public class MyHashMap<KT, VT> {
         return null;
     }
 
-    public VT getOrDefault(KT key, VT defaultValue) {
+    public V getOrDefault(K key, V defaultValue) {
         var val = get(key);
         return val != null ? val : defaultValue;
     }
 
-    private void insertBucket(KT key, VT value, int bucket) {
+    private void insertBucket(K key, V value, int bucket) {
         if (nodes[bucket] == null) {
             nodes[bucket] = new HashMapNode(key, value);
             nodeCount++;
@@ -76,7 +76,7 @@ public class MyHashMap<KT, VT> {
         }
     }
 
-    private int getBucket(KT key) {
+    private int getBucket(K key) {
         int bucket = key.hashCode() % size;
         return bucket >= 0 ? bucket : -bucket;
     }

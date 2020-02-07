@@ -1,12 +1,12 @@
 package tiralabra.datastructure;
 
-public class HashMapNode<KT, VT> {
+public class HashMapNode<K, V> {
 
-    private KT key;
-    private VT value;
+    private K key;
+    private V value;
     private HashMapNode next;
 
-    public HashMapNode(KT key, VT value) {
+    public HashMapNode(K key, V value) {
         this.key = key;
         this.value = value;
     }
@@ -15,15 +15,15 @@ public class HashMapNode<KT, VT> {
         this.next = next;
     }
 
-    public void setValue(VT value) {
+    public void setValue(V value) {
         this.value = value;
     }
 
-    public KT getKey() {
+    public K getKey() {
         return key;
     }
 
-    public VT getValue() {
+    public V getValue() {
         return value;
     }
 
