@@ -205,6 +205,7 @@ public class JPSPathfinder extends Pathfinder {
         // Horizontal movement
         int x = cell.getX();
         int y = cell.getY();
+        dist += 2;
         if ((dx == 1 || dx == -1) && dy == 0 && !map.isCellBlocked(x + dx, y)) {
             // Horizontal movement
             if (map.isCellBlocked(x, y + 1) && !map.isCellBlocked(x + dx, y + 1)) {
@@ -229,7 +230,6 @@ public class JPSPathfinder extends Pathfinder {
             boolean xAxisBlocked = map.isCellBlocked(new Cell(cell.getX() + dx, cell.getY()));
             boolean yAxisBlocked = map.isCellBlocked(new Cell(cell.getX(), cell.getY() + dy));
             Cell diagonalCell = new Cell(cell.getX() + dx, cell.getY() + dy);
-            dist += 2;
             int estimatedDist = dist + manhattanDistance(diagonalCell, goal);
             if (xAxisBlocked && !yAxisBlocked) {
                 result.add(new PathNode(diagonalCell, dist, estimatedDist, dx, dy));
