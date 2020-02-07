@@ -12,6 +12,8 @@ public class TestCases {
     public static PathfinderTestCase simpleNoPath;
     public static PathfinderTestCase smallMaze;
     public static PathfinderTestCase jpsCornerCase;
+    public static PathfinderTestCase jpsCornerCase2;
+    public static PathfinderTestCase jpsCornerCase3;
 
     public static void test(Pathfinder pathfinder, PathfinderTestCase testCase) {
         Cell[] result = pathfinder.findPath(testCase.getStart(), testCase.getGoal());
@@ -29,6 +31,8 @@ public class TestCases {
         createSimpleNoPath();
         createSmallMaze();
         createJPSCornerCase();
+        createJPSCornerCase2();
+        createJPSCornerCase3();
     }
 
     private static void createSimpleTestCase() {
@@ -92,6 +96,46 @@ public class TestCases {
         jpsCornerCase = new PathfinderTestCase(map,
                 new Cell(2, 4),
                 new Cell(6, 0),
+                8
+        );
+    }
+
+    private static void createJPSCornerCase2() {
+        ArrayList<String> mapString = new ArrayList<>();
+        mapString.add("type octile");
+        mapString.add("height 7");
+        mapString.add("width 10");
+        mapString.add("map");
+        mapString.add("..........");
+        mapString.add("..X...X...");
+        mapString.add("..........");
+        mapString.add("..X.X..X..");
+        mapString.add("..X...X...");
+        mapString.add("....X...X.");
+        mapString.add("......X...");
+
+        Map map = MapLoader.constructMap(mapString);
+        jpsCornerCase2 = new PathfinderTestCase(map,
+                new Cell(4, 4),
+                new Cell(4, 0),
+                6
+        );
+    }
+
+    private static void createJPSCornerCase3() {
+        ArrayList<String> mapString = new ArrayList<>();
+        mapString.add("type octile");
+        mapString.add("height 3");
+        mapString.add("width 10");
+        mapString.add("map");
+        mapString.add("..........");
+        mapString.add(".XXXXXXX..");
+        mapString.add("..........");
+
+        Map map = MapLoader.constructMap(mapString);
+        jpsCornerCase3 = new PathfinderTestCase(map,
+                new Cell(5, 2),
+                new Cell(5, 0),
                 8
         );
     }
