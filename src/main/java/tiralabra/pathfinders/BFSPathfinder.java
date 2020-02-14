@@ -3,8 +3,8 @@ package tiralabra.pathfinders;
 import tiralabra.Cell;
 import tiralabra.Map;
 import tiralabra.datastructure.MyArrayDeque;
-import tiralabra.datastructure.MyBitSet;
 import tiralabra.datastructure.MyHashMap;
+import tiralabra.datastructure.MyHashSet;
 
 public class BFSPathfinder extends Pathfinder {
 
@@ -21,17 +21,16 @@ public class BFSPathfinder extends Pathfinder {
             return null;
         }
         MyArrayDeque<Cell> queue = new MyArrayDeque<>();
-        MyBitSet used = new MyBitSet(map.getHeight() * map.getWidth());
+        MyHashSet<Cell> used = new MyHashSet();
         MyHashMap<Cell, Cell> prev = new MyHashMap<>();
 
         queue.add(start);
-        used.set(start.getX() + start.getY() * map.getWidth());
+        used.add(start);
 
         while (queue.size() != 0) {
             Cell cell = queue.removeFirst();
             for (Cell nextCell : getAdjacentCells(cell)) {
-                int bitSetIndex = nextCell.getX() + nextCell.getY() * map.getWidth();
-                if (used.get(bitSetIndex)) {
+                if (used.contains(nextCell)) {
                     continue;
                 }
                 prev.put(nextCell, cell);
@@ -39,7 +38,7 @@ public class BFSPathfinder extends Pathfinder {
                     return reconstructPath(start, goal, prev);
                 }
                 queue.add(nextCell);
-                used.set(bitSetIndex);
+                used.add(nextCell);
             }
         }
         return null;
