@@ -10,9 +10,8 @@ import java.nio.file.Paths;
 public class App {
 
     public static void main(String[] args) throws IOException {
-        //Map map = MapLoader.loadMap(Paths.get("C:\\Users\\FINDarkside\\Downloads\\AcrosstheCape.map\\AcrosstheCape.map"));
-        //BFSPathfinder finder = new BFSPathfinder(map);
-
-        
+        var scenarios = ScenarioLoader.loadScenarios(Paths.get("C:\\Users\\FINDarkside\\Koulu\\Tiralabra\\ca_cave.map.scen"));
+        BenchmarkRunner.runBencmark(scenarios);
     }
+
 }

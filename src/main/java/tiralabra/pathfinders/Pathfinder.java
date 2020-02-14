@@ -1,7 +1,6 @@
 package tiralabra.pathfinders;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import tiralabra.Cell;
 import tiralabra.Map;
