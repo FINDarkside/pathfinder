@@ -24,9 +24,21 @@ public class BenchmarkRunner {
         for (File scenarioGroup : scenarioGroups) {
             var result = runScenarioGroup(scenarioGroup);
             System.out.println(result.scenarioGroupName);
-            System.out.println("BFS: " + result.bfs.averageTime);
-            System.out.println("A*: " + result.astar.averageTime);
-            System.out.println("JPS: " + result.jps.averageTime);
+            System.out.println("BFS: ");
+            System.out.println("Average time: " + (double) result.bfs.averageTime / 1000000 + " ms");
+            System.out.println("P25: " + (double) result.bfs.p25 / 1000000 + " ms");
+            System.out.println("P75: " + (double) result.bfs.p75 / 1000000 + " ms");
+
+            System.out.println("A*: ");
+            System.out.println("Average time: " + (double) result.astar.averageTime / 1000000 + " ms");
+            System.out.println("P25: " + (double) result.astar.p25 / 1000000 + " ms");
+            System.out.println("P75: " + (double) result.astar.p75 / 1000000 + " ms");
+
+            System.out.println("BFS: ");
+            System.out.println("Average time: " + (double) result.jps.averageTime / 1000000 + " ms");
+            System.out.println("P25: " + (double) result.jps.p25 / 1000000 + " ms");
+            System.out.println("P75: " + (double) result.jps.p75 / 1000000 + " ms");
+
             System.out.println("");
         }
 
@@ -47,7 +59,6 @@ public class BenchmarkRunner {
                 bfsTimes.addAll(runScenarios(scenarios, BFSPathfinder.class));
                 astarTimes.addAll(runScenarios(scenarios, AstarPathfinder.class));
                 jpsTimes.addAll(runScenarios(scenarios, JPSPathfinder.class));
-                System.out.println(scenarioFile.toString() + " done");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -86,13 +97,15 @@ public class BenchmarkRunner {
     }
 
     private static BenchmarkResult createResultFromTimes(MyArrayDeque<Long> arrayDeque) {
+        long[] arr = new long[arrayDeque.size()];
         long total = 0;
         for (int i = 0; i < arrayDeque.size(); i++) {
             total += arrayDeque.get(i);
+            arr[i] = arrayDeque.get(i);
         }
-        //MyArrays.sort(arr);
+        MyArrays.sort(arr);
 
-        return new BenchmarkResult(total / arrayDeque.size());
+        return new BenchmarkResult(total / arrayDeque.size(), arr[arrayDeque.size() / 4 * 3], arr[arrayDeque.size() / 4]);
     }
 
 }
