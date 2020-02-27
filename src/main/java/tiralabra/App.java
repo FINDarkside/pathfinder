@@ -3,15 +3,16 @@
  */
 package tiralabra;
 
+import tiralabra.benchmark.ScenarioLoader;
+import tiralabra.benchmark.BenchmarkRunner;
 import tiralabra.pathfinders.BFSPathfinder;
 import java.io.IOException;
 import java.nio.file.Paths;
 
 public class App {
-
+    
     public static void main(String[] args) throws IOException {
-        var scenarios = ScenarioLoader.loadScenarios(Paths.get("C:\\Users\\FINDarkside\\Koulu\\Tiralabra\\ca_cave.map.scen"));
-        BenchmarkRunner.runBencmark(scenarios);
+        BenchmarkRunner.runBencmark(Paths.get("C:\\Users\\FINDarkside\\Downloads\\benchmark"));
     }
-
+    
 }

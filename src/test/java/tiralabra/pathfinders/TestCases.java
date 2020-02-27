@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import tiralabra.Cell;
 import tiralabra.Map;
-import tiralabra.MapLoader;
+import tiralabra.benchmark.MapLoader;
 
 public class TestCases {
 

@@ -1,10 +1,12 @@
-package tiralabra;
+package tiralabra.benchmark;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import tiralabra.Cell;
+import tiralabra.Map;
 import tiralabra.datastructure.MyArrayDeque;
 
 public class ScenarioLoader {
@@ -16,9 +18,9 @@ public class ScenarioLoader {
      * @return List of scenarios.
      * @throws IOException
      */
-    static MyArrayDeque<Scenario> loadScenarios(Path path) throws IOException {
+    static MyArrayDeque<Scenario> loadScenarios(Path path, Path mapFolder) throws IOException {
         var lines = Files.readAllLines(path);
-        return constructScenarios(lines);
+        return constructScenarios(lines, mapFolder);
     }
 
     /**
@@ -28,10 +30,11 @@ public class ScenarioLoader {
      * characters are interpreted as blocked cell.
      *
      * @param lines
+     * @param mapFolder
      * @return
      * @throws java.io.IOException
      */
-    public static MyArrayDeque<Scenario> constructScenarios(List<String> lines) throws IOException {
+    public static MyArrayDeque<Scenario> constructScenarios(List<String> lines, Path mapFolder) throws IOException {
         MyArrayDeque<Scenario> scenarios = new MyArrayDeque<>();
         Map map = null;
         String prevMapPath = "";
@@ -43,7 +46,7 @@ public class ScenarioLoader {
             }
             String mapPath = splitted[1];
             if (!mapPath.equals(prevMapPath)) {
-                map = MapLoader.loadMap(Paths.get(mapPath));
+                map = MapLoader.loadMap(Paths.get(mapFolder.toString(), mapPath));
                 prevMapPath = mapPath;
             }
             Cell start = new Cell(Integer.parseInt(splitted[4]), Integer.parseInt(splitted[5]));

@@ -27,6 +27,17 @@ public class MyArrayDeque<T> {
     }
 
     /**
+     * Adds all values from arr.
+     *
+     * @param arr
+     */
+    public void addAll(MyArrayDeque<T> arr) {
+        for (int i = 0; i < arr.size(); i++) {
+            this.add(arr.get(i));
+        }
+    }
+
+    /**
      * Adds value to the start of deque.
      *
      * @param value

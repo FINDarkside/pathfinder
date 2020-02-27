@@ -1,9 +1,10 @@
-package tiralabra;
+package tiralabra.benchmark;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import tiralabra.Map;
 
 public class MapLoader {
 

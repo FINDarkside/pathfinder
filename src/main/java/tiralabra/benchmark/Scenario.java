@@ -1,4 +1,7 @@
-package tiralabra;
+package tiralabra.benchmark;
+
+import tiralabra.Cell;
+import tiralabra.Map;
 
 public class Scenario {
 
