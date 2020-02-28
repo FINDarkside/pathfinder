@@ -33,6 +33,14 @@ application {
     mainClassName = 'tiralabra.App'
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'tiralabra.App'
+        )
+    }
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
