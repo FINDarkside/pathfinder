@@ -27,16 +27,19 @@ public class BenchmarkRunner {
             System.out.println("BFS: ");
             System.out.println("Average time: " + (double) result.bfs.averageTime / 1000000 + " ms");
             System.out.println("P25: " + (double) result.bfs.p25 / 1000000 + " ms");
+            System.out.println("Median: " + (double) result.bfs.median / 1000000 + " ms");
             System.out.println("P75: " + (double) result.bfs.p75 / 1000000 + " ms");
 
             System.out.println("A*: ");
             System.out.println("Average time: " + (double) result.astar.averageTime / 1000000 + " ms");
             System.out.println("P25: " + (double) result.astar.p25 / 1000000 + " ms");
+            System.out.println("Median: " + (double) result.astar.median / 1000000 + " ms");
             System.out.println("P75: " + (double) result.astar.p75 / 1000000 + " ms");
 
-            System.out.println("BFS: ");
+            System.out.println("JPS: ");
             System.out.println("Average time: " + (double) result.jps.averageTime / 1000000 + " ms");
             System.out.println("P25: " + (double) result.jps.p25 / 1000000 + " ms");
+            System.out.println("Median: " + (double) result.jps.median / 1000000 + " ms");
             System.out.println("P75: " + (double) result.jps.p75 / 1000000 + " ms");
 
             System.out.println("");
@@ -73,6 +76,7 @@ public class BenchmarkRunner {
     private static MyArrayDeque<Long> runScenarios(MyArrayDeque<Scenario> scenarios, Class pathfinderClass) throws NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         var constructor = pathfinderClass.getConstructor(Map.class);
         var times = new MyArrayDeque<Long>();
+
         for (int i = 0; i < scenarios.size(); i++) {
             var scenario = scenarios.get(i);
             var correctResult = new BFSPathfinder(scenario.getMap()).findPath(scenario.getStart(), scenario.getGoal());
@@ -105,7 +109,12 @@ public class BenchmarkRunner {
         }
         MyArrays.sort(arr);
 
-        return new BenchmarkResult(total / arrayDeque.size(), arr[arrayDeque.size() / 4 * 3], arr[arrayDeque.size() / 4]);
+        return new BenchmarkResult(
+                total / arrayDeque.size(),
+                arr[arrayDeque.size() / 4 * 3],
+                arr[arrayDeque.size() / 4],
+                arr[arrayDeque.size() / 2]
+        );
     }
 
 }
