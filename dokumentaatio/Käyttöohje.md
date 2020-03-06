@@ -13,3 +13,5 @@ Ohjelma ottaa argumenttinaan polun kansioon jossa on tarvittava data benchmarkil
 BenchmarkRunner siis suorittaa kaikki skenaario tiedostot, ja ryhmittää tulokset sen perusteella missä kansiossa skenaario tiedosto oli. Tuloksissa on keskimääräinen aika reitin löytämiselle, mediaani ja 25. ja 75. persentiilit.
 
 Ohjelman voi ajaa komentoriviltä komennolla `java -jar ./benchMarkdata`, toki oikealla polulla dataan.
+
+Javadocin saa generoitua komennolla `gradle javadoc` minkä jälkeen dokumentointi löytyy polusta `./build/docs/javadoc/index.html`.
