@@ -2,6 +2,11 @@ package tiralabra.datastructure;
 
 public class MyArrays {
 
+    /**
+     * Sorts array.
+     * 
+     * @param arr Array to sort.
+     */
     public static void sort(long[] arr) {
         quickSortRecursive(arr, 0, arr.length);
     }

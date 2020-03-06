@@ -1,5 +1,11 @@
 package tiralabra.datastructure;
 
+/**
+ * Map structure allowing key value mapping with constant time operations.
+ *
+ * @param <K> Key type.
+ * @param <V> Value type.
+ */
 public class MyHashMap<K, V> {
 
     private static final int DEFAULT_CAPACITY = 16;

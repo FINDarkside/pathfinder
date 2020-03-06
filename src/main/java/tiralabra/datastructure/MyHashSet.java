@@ -1,5 +1,10 @@
 package tiralabra.datastructure;
 
+/**
+ * Set structure with constant time operations.
+ * 
+ * @param <T> Value type.
+ */
 public class MyHashSet<T> {
 
     private MyHashMap<T, Boolean> map = new MyHashMap<>();
