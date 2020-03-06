@@ -74,6 +74,24 @@ public class MyArrayDequeTest {
         }
     }
 
+    @Test
+    public void addAllAddsAllItemsInTheEnd() {
+        MyArrayDeque<Integer> arr = new MyArrayDeque<>();
+        arr.add(1);
+        arr.add(1);
+        arr.add(1);
+
+        MyArrayDeque<Integer> arr2 = new MyArrayDeque<>();
+        arr2.add(3);
+        arr2.add(2);
+        arr2.add(1);
+        arr.addAll(arr2);
+
+        Assert.assertEquals(3, (int) arr.get(3));
+        Assert.assertEquals(2, (int) arr.get(4));
+        Assert.assertEquals(1, (int) arr.get(5));
+    }
+
     @Test(expected = IndexOutOfBoundsException.class)
     public void throwOnTooLargeIndex() {
         MyArrayDeque<Integer> arr = new MyArrayDeque<>();
