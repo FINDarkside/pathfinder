@@ -9,6 +9,8 @@
 
 [Testausdokumentti](/dokumentaatio/Testausdokumentti.md)
 
+[Käyttöohje](/dokumentaatio/Käyttöohje.md)
+
 ## Viikkoraportit
 
 * [Viikko 1](/dokumentaatio/Viikkoraportti1.md)
