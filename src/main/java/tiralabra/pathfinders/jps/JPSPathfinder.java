@@ -7,6 +7,11 @@ import tiralabra.datastructure.MyHashMap;
 import tiralabra.datastructure.MyPriorityQueue;
 import tiralabra.pathfinders.Pathfinder;
 
+/**
+ * Jump point search path finder. See
+ * http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-aaai11.pdf
+ * for detailed explanation of the algorithm.
+ */
 public class JPSPathfinder extends Pathfinder {
 
     public JPSPathfinder(Map map) {
@@ -26,6 +31,7 @@ public class JPSPathfinder extends Pathfinder {
         MyHashMap<Cell, Integer> bestDist = new MyHashMap<>();
         var context = new JPSSearchContext(queue, prev, bestDist, start, goal);
 
+        // Add points expanding in all 4 different directions
         queue.add(new PathNode(start, 0, manhattanDistance(start, goal), 1, 1));
         queue.add(new PathNode(start, 0, manhattanDistance(start, goal), 1, -1));
         queue.add(new PathNode(start, 0, manhattanDistance(start, goal), -1, 1));
@@ -45,6 +51,13 @@ public class JPSPathfinder extends Pathfinder {
         return null;
     }
 
+    /**
+     *
+     * @param node Node to start from.
+     * @param dx delta x. Must be either -1 or 1
+     * @param dy delta y. Must be either -1 or 1
+     * @param context
+     */
     private void searchDiagonal(PathNode node, int dx, int dy, JPSSearchContext context) {
         int dist = node.dist;
         Cell currentCell = node.cell;
@@ -55,6 +68,8 @@ public class JPSPathfinder extends Pathfinder {
             }
             context.bestDist.put(currentCell, dist);
             if (currentCell.equals(context.goal)) {
+                // Because of diagonal jumping this isn't necessarily the shortest path.
+                // So add to queue, and whenever we pick goal from queue we have the shortest path.
                 context.queue.add(new PathNode(context.goal, dist, dist, 0, 0));
                 context.prev.put(context.goal, node.cell);
             }
@@ -63,15 +78,26 @@ public class JPSPathfinder extends Pathfinder {
             var horizontalJumpPoints = jumpStraight(currentCell, dist, dx, 0, context);
 
             if (!verticalJumpPoints.isEmpty() || !horizontalJumpPoints.isEmpty()) {
+                /**
+                 * In addition of possible horizontal and vertical points, we
+                 * need to add one jump point expanding in the same direction as
+                 * we currently are moving
+                 */
                 context.queue.add(new PathNode(currentCell, dist, dist + manhattanDistance(currentCell, context.goal), dx, dy));
                 context.queue.addAll(verticalJumpPoints);
                 context.queue.addAll(horizontalJumpPoints);
                 if (!verticalJumpPoints.isEmpty()) {
+                    /**
+                     * All points in vertical and horizontal jump points are in
+                     * the same cell, but just expanding in different
+                     * directions. So we can just pick the cell of the first.
+                     */
                     context.prev.put(verticalJumpPoints.get(0).cell, currentCell);
                 }
                 if (!horizontalJumpPoints.isEmpty()) {
                     context.prev.put(horizontalJumpPoints.get(0).cell, currentCell);
                 }
+                // Don't add currentCell -> currentCell (cycle)
                 if (!currentCell.equals(node.cell)) {
                     context.prev.put(currentCell, node.cell);
                 }
@@ -92,8 +118,10 @@ public class JPSPathfinder extends Pathfinder {
             }
 
             currentCell = new Cell(currentCell.getX() + dx, currentCell.getY() + dy);
-            // Diagonal moves are not allowed, so if we can't make it with 2 straight moves
-            // currentCell is inaccessible
+            /**
+             * Diagonal moves are not allowed, so if we can't make it with 2
+             * straight moves currentCell is inaccessible
+             */
             if (map.isCellBlocked(currentCell.getX() - dx, currentCell.getY())
                     && map.isCellBlocked(currentCell.getX(), currentCell.getY() - dy)) {
                 return;
@@ -110,6 +138,7 @@ public class JPSPathfinder extends Pathfinder {
      * @param queue
      * @param dx -1, 0 or 1. Should be 0 if dy != 0
      * @param dy -1, 0 or 1. Should be 0 if dx != 0
+     * @return List of jump points.
      */
     private MyArrayDeque<PathNode> jumpStraight(Cell cell, int dist, int dx, int dy, JPSSearchContext context) {
         Cell currentCell = new Cell(cell.getX() + dx, cell.getY() + dy);
@@ -139,7 +168,8 @@ public class JPSPathfinder extends Pathfinder {
     /**
      * Returns new jump points in direction of forced neighbors if they exist.
      * Returned pathNode.cell isn't the forced neighbor, but (pathNode.cell.x +
-     * pathNode.dx, pathNode.cell.y + pathNode.dy) is.
+     * pathNode.dx, pathNode.cell.y + pathNode.dy) is. So this method returns
+     * jump points expanding in the direction of the forced neighbor.
      *
      * @param map
      * @param cell
@@ -174,6 +204,12 @@ public class JPSPathfinder extends Pathfinder {
                 result.add(new PathNode(cell, dist, dist + manhattanDistance(cell, context.goal), -1, dy));
             }
         } else if (dy != 0 && dx != 0 && !map.isCellBlocked(new Cell(cell.getX() + dx, cell.getY() + dy))) {
+            /**
+             * Diagonal movement. Can return 2 different jump points, because we
+             * must return one jump point which extends in the same direction as
+             * the current direction and one jump point which expands "behind"
+             * the possible corner.
+             */
             boolean xAxisBlocked = map.isCellBlocked(new Cell(cell.getX() + dx, cell.getY()));
             boolean yAxisBlocked = map.isCellBlocked(new Cell(cell.getX(), cell.getY() + dy));
             Cell diagonalCell = new Cell(cell.getX() + dx, cell.getY() + dy);
